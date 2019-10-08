@@ -2,6 +2,8 @@
 #define MAINGUIWINDOW_H
 
 #include <QMainWindow>
+#include <QWidget>
+#include <QPushButton>
 
 #include "account/account.h"
 
@@ -13,11 +15,17 @@ class MainGUIWindow : public QMainWindow
 {
     Q_OBJECT
     QWidget *content;
+    Account *user;
+    QWidget *proposals;
 public:
     MainGUIWindow(QWidget *parent = nullptr);
     ~MainGUIWindow();
     QWidget *SetTopPanel();
+    void ClearLayout(QLayout *);
 private:
     Ui::MainGUIWindow *ui;
+public slots:
+    void LoadProfile();
+    void LoadProposals();
 };
 #endif // MAINGUIWINDOW_H

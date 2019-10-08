@@ -2,6 +2,7 @@
 
 Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
 {
+    username = "";
     QPushButton *profile = new QPushButton("Profile");
     QPushButton *settings = new QPushButton("Profile");
     QPushButton *makeDeal = new QPushButton("Profile");
@@ -23,4 +24,9 @@ Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
 
     this->addWidget(sideBar);
     this->addWidget(content);
+}
+
+QString Account::GetName()
+{
+    return username;
 }

@@ -14,6 +14,7 @@ class Account : public QSplitter
     QString username;
 public:
     Account(Qt::Orientation orientation);
+    QString GetName();
 };
 
 #endif // ACCOUNT_H
