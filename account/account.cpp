@@ -26,6 +26,12 @@ Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
     this->addWidget(content);
 }
 
+void Account::LogIn()
+{
+    AuthorizationHandler *login = new AuthorizationHandler;
+    login->exec();
+}
+
 QString Account::GetName()
 {
     return username;

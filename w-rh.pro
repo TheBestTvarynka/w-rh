@@ -17,11 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     account/account.cpp \
+    account/authorizationhandler.cpp \
     main.cpp \
     mainguiwindow.cpp
 
 HEADERS += \
     account/account.h \
+    account/authorizationhandler.h \
     mainguiwindow.h
 
 FORMS += \

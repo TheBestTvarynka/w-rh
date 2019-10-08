@@ -72,7 +72,7 @@ void MainGUIWindow::LoadProfile()
     delete current;
     if (user->GetName() == "")
     {
-
+        user->LogIn();
     }
     current = new QHBoxLayout;
     current->addWidget(user);

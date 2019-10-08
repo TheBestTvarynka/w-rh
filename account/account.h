@@ -8,12 +8,15 @@
 #include <QSpacerItem>
 #include <QLabel>
 
+#include "authorizationhandler.h"
+
 class Account : public QSplitter
 {
     Q_OBJECT
     QString username;
 public:
     Account(Qt::Orientation orientation);
+    void LogIn();
     QString GetName();
 };
 
