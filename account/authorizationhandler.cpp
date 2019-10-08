@@ -12,7 +12,7 @@ AuthorizationHandler::AuthorizationHandler()
     nameLayout->addWidget(nameLabel);
     nameLayout->addWidget(nameEdit);
 
-    QLabel *passLabel = new QLabel("Enter a name:");
+    QLabel *passLabel = new QLabel("Enter a password:");
     passEdit = new QLineEdit;
 
     QHBoxLayout *passLayout = new QHBoxLayout;

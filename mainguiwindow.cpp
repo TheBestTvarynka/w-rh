@@ -63,28 +63,40 @@ void MainGUIWindow::ClearLayout(QLayout *layout)
 
 void MainGUIWindow::LoadProfile()
 {
+    user->show();
+    proposals->hide();
     QLayout *current = content->layout();
-    if (current->indexOf(proposals) == -1)
+    if (current->indexOf(user) != -1)
     {
-        qDebug() << "already exist...";
+        LoadProposals();
         return;
     }
-    delete current;
     if (user->GetName() == "")
     {
         user->LogIn();
     }
-    current = new QHBoxLayout;
+    if (current->indexOf(proposals) != -1)
+    {
+        current->replaceWidget(proposals, user);
+        return;
+    }
     current->addWidget(user);
-    content->setLayout(current);
 }
 
 void MainGUIWindow::LoadProposals()
 {
+    user->hide();
+    proposals->show();
     QLayout *current = content->layout();
-    delete current;
-    current = new QHBoxLayout;
+    if (current->indexOf(proposals) != -1)
+    {
+        return;
+    }
+    if (current->indexOf(user) != -1)
+    {
+        current->replaceWidget(user, proposals);
+        return;
+    }
     current->addWidget(proposals);
-    content->setLayout(current);
 }
 

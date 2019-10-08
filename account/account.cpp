@@ -4,8 +4,8 @@ Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
 {
     username = "";
     QPushButton *profile = new QPushButton("Profile");
-    QPushButton *settings = new QPushButton("Profile");
-    QPushButton *makeDeal = new QPushButton("Profile");
+    QPushButton *settings = new QPushButton("Settings");
+    QPushButton *makeDeal = new QPushButton("Make a proposal");
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
 
     QVBoxLayout *sideBarLayout = new QVBoxLayout;
