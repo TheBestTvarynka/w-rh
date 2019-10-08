@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "account/account.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainGUIWindow; }
 QT_END_NAMESPACE

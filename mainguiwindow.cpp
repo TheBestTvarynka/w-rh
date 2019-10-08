@@ -6,6 +6,11 @@ MainGUIWindow::MainGUIWindow(QWidget *parent)
     , ui(new Ui::MainGUIWindow)
 {
     ui->setupUi(this);
+
+    QVBoxLayout *layout = new QVBoxLayout;
+    Account *user = new Account(Qt::Horizontal);
+    layout->addWidget(user);
+    ui->centralwidget->setLayout(layout);
 }
 
 MainGUIWindow::~MainGUIWindow()
