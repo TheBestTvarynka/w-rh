@@ -12,11 +12,11 @@ QT_END_NAMESPACE
 class MainGUIWindow : public QMainWindow
 {
     Q_OBJECT
-
+    QWidget *content;
 public:
     MainGUIWindow(QWidget *parent = nullptr);
     ~MainGUIWindow();
-
+    QWidget *SetTopPanel();
 private:
     Ui::MainGUIWindow *ui;
 };

@@ -8,6 +8,7 @@ Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
 
     QVBoxLayout *sideBarLayout = new QVBoxLayout;
+    sideBarLayout->setMargin(0);
     sideBarLayout->addWidget(profile);
     sideBarLayout->addWidget(settings);
     sideBarLayout->addWidget(makeDeal);
