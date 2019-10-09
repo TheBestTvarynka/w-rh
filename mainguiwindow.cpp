@@ -52,8 +52,7 @@ QWidget *MainGUIWindow::SetTopPanel()
 
 void MainGUIWindow::LoadProfile()
 {
-    user->show();
-    proposals->hide();
+    user->hide();
     QLayout *current = content->layout();
     if (current->indexOf(user) != -1)
     {
@@ -62,8 +61,9 @@ void MainGUIWindow::LoadProfile()
     }
     if (user->GetName() == "")
     {
-        user->hide();
         user->LogIn();
+        if (user->GetName() == "")
+            return;
     }
     user->show();
     proposals->hide();

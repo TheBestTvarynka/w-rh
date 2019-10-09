@@ -24,6 +24,7 @@ AuthorizationHandler::AuthorizationHandler()
     QPushButton *submit = new QPushButton("OK");
     QPushButton *cancel = new QPushButton("Cancel");
     connect(submit, SIGNAL(clicked()), this, SLOT(LogIn()));
+    connect(cancel, SIGNAL(clicked()), this, SLOT(close()));
 
     QVBoxLayout *main = new QVBoxLayout;
     main->addItem(nameLayout);
