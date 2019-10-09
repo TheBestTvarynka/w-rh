@@ -13,11 +13,17 @@
 class Account : public QSplitter
 {
     Q_OBJECT
+    QWidget *content;
     QString username;
 public:
     Account(Qt::Orientation orientation);
+    void ClearLayout(QLayout *);
     void LogIn();
     QString GetName();
+public slots:
+    void SetProfile();
+//    void SetUserSettings();
+//    void SetMakeDeal();
 };
 
 #endif // ACCOUNT_H

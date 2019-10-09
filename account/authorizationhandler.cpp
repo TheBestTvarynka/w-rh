@@ -1,18 +1,19 @@
 #include "authorizationhandler.h"
+#include "account.h"
 
 AuthorizationHandler::AuthorizationHandler()
 {
     name = "";
     pass = "";
 
-    QLabel *nameLabel = new QLabel("Enter a name:");
+    QLabel *nameLabel = new QLabel("Login:");
     nameEdit = new QLineEdit;
 
     QHBoxLayout *nameLayout = new QHBoxLayout;
     nameLayout->addWidget(nameLabel);
     nameLayout->addWidget(nameEdit);
 
-    QLabel *passLabel = new QLabel("Enter a password:");
+    QLabel *passLabel = new QLabel("Password:");
     passEdit = new QLineEdit;
 
     QHBoxLayout *passLayout = new QHBoxLayout;
@@ -34,5 +35,16 @@ void AuthorizationHandler::LogIn()
 {
     name = nameEdit->text();
     pass = passEdit->text();
+    // we check login and pass
     this->close();
+}
+
+QString AuthorizationHandler::GetUserName()
+{
+    return name;
+}
+
+QString AuthorizationHandler::GetUserPass()
+{
+    return pass;
 }

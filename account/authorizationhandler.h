@@ -8,6 +8,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
+class Account;
+
 class AuthorizationHandler : public QDialog
 {
     Q_OBJECT
@@ -15,10 +17,13 @@ class AuthorizationHandler : public QDialog
     QString pass;
     QLineEdit *nameEdit;
     QLineEdit *passEdit;
+    Account *Parent;
 public:
     AuthorizationHandler();
 public slots:
     void LogIn();
+    QString GetUserName();
+    QString GetUserPass();
 };
 
 #endif // AUTHORIZATIONHANDLER_H

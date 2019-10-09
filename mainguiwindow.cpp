@@ -49,18 +49,6 @@ QWidget *MainGUIWindow::SetTopPanel()
     return topPanel;
 }
 
-void MainGUIWindow::ClearLayout(QLayout *layout)
-{
-    if (!layout)
-        return;
-    while (auto item = layout->takeAt(0))
-    {
-        delete item->widget();
-        ClearLayout(item->layout());
-    }
-}
-
-
 void MainGUIWindow::LoadProfile()
 {
     user->show();
@@ -73,8 +61,11 @@ void MainGUIWindow::LoadProfile()
     }
     if (user->GetName() == "")
     {
+        user->hide();
         user->LogIn();
     }
+    user->show();
+    proposals->hide();
     if (current->indexOf(proposals) != -1)
     {
         current->replaceWidget(proposals, user);

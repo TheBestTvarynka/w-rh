@@ -21,7 +21,6 @@ public:
     MainGUIWindow(QWidget *parent = nullptr);
     ~MainGUIWindow();
     QWidget *SetTopPanel();
-    void ClearLayout(QLayout *);
 private:
     Ui::MainGUIWindow *ui;
 public slots:
