@@ -19,12 +19,16 @@ SOURCES += \
     account/account.cpp \
     account/authorizationhandler.cpp \
     main.cpp \
-    mainguiwindow.cpp
+    mainguiwindow.cpp \
+    proposals/filter.cpp \
+    proposals/proposalsviewer.cpp
 
 HEADERS += \
     account/account.h \
     account/authorizationhandler.h \
-    mainguiwindow.h
+    mainguiwindow.h \
+    proposals/filter.h \
+    proposals/proposalsviewer.h
 
 FORMS += \
     mainguiwindow.ui
