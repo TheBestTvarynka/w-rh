@@ -28,11 +28,14 @@ Filter::Filter()
     location->addWidget(locationLabel);
     location->addWidget(locationEdit);
 
+    QPushButton *submit = new QPushButton("Filter");
+
     QVBoxLayout *page = new QVBoxLayout;
     page->addWidget(h);
     page->addLayout(room);
     page->addLayout(price);
     page->addLayout(location);
+    page->addWidget(submit);
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
     page->addItem(space);
 
