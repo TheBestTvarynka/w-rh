@@ -128,38 +128,8 @@ void Account::SetMakeProposal()
     proposals->addWidget(proposalsLabel);
     proposals->addWidget(proposalsList);
 
-    QLabel *addProposalLabel = new QLabel("Add new proposal");
+    ProposalSender *sender = new ProposalSender;
 
-    QLabel *addressLabel = new QLabel("Address of house");
-    QLineEdit *addressEdit = new QLineEdit;
-    QVBoxLayout *address = new QVBoxLayout;
-    address->addWidget(addressLabel);
-    address->addWidget(addressEdit);
-
-    QLabel *bankLabel = new QLabel("Bank account");
-    QLineEdit *bankEdit = new QLineEdit;
-    QVBoxLayout *bank = new QVBoxLayout;
-    bank->addWidget(bankLabel);
-    bank->addWidget(bankEdit);
-
-    QListWidget *filesList = new QListWidget;
-    QPushButton *deleteFile = new QPushButton("Delete file");
-    QPushButton *addFile = new QPushButton("Add file");
-    QHBoxLayout *manageFiles = new QHBoxLayout;
-    manageFiles->addWidget(deleteFile);
-    manageFiles->addWidget(addFile);
-    QVBoxLayout *files = new QVBoxLayout;
-    files->addWidget(filesList);
-    files->addLayout(manageFiles);
-
-    QPushButton *makeProposal = new QPushButton("add proposal");
-
-    QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
     page->addLayout(proposals);
-    page->addWidget(addProposalLabel);
-    page->addLayout(address);
-    page->addLayout(bank);
-    page->addLayout(files);
-    page->addWidget(makeProposal);
-    page->addItem(space);
+    page->addWidget(sender);
 }

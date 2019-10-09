@@ -21,6 +21,7 @@ SOURCES += \
     main.cpp \
     mainguiwindow.cpp \
     proposals/filter.cpp \
+    proposals/proposalsender.cpp \
     proposals/proposalsviewer.cpp
 
 HEADERS += \
@@ -28,6 +29,7 @@ HEADERS += \
     account/authorizationhandler.h \
     mainguiwindow.h \
     proposals/filter.h \
+    proposals/proposalsender.h \
     proposals/proposalsviewer.h
 
 FORMS += \

@@ -10,6 +10,7 @@
 #include <QListWidget>
 
 #include "authorizationhandler.h"
+#include "../proposals/proposalsender.h"
 
 class Account : public QSplitter
 {
