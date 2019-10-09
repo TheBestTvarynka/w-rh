@@ -4,9 +4,13 @@ Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
 {
     username = "";
     QPushButton *profile = new QPushButton("Profile");
+    connect(profile, SIGNAL(clicked()), this, SLOT(SetProfile()));
     QPushButton *settings = new QPushButton("Accout settings");
+    connect(settings, SIGNAL(clicked()), this, SLOT(SetUserSettings()));
     QPushButton *makeDeal = new QPushButton("Make a proposal");
+//    connect(profile, SIGNAL(clicked()), this, SLOT(SetProfile()));
     QPushButton *logOut = new QPushButton("Log out");
+//    connect(profile, SIGNAL(clicked()), this, SLOT(SetProfile()));
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
 
     QVBoxLayout *sideBarLayout = new QVBoxLayout;
@@ -88,4 +92,20 @@ void Account::SetProfile()
     page->addLayout(location);
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
     page->addItem(space);
+}
+
+void Account::SetUserSettings()
+{
+    QVBoxLayout *page = (QVBoxLayout *)(content->layout());
+    ClearLayout(page);
+
+    QLabel *emailLabel = new QLabel("Email address");
+    QLineEdit *emailEdit = new QLineEdit;
+    QVBoxLayout *email = new QVBoxLayout;
+    email->addWidget(emailLabel);
+    email->addWidget(emailEdit);
+    QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
+    email->addItem(space);
+
+    page->addLayout(email);
 }

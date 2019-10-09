@@ -22,7 +22,7 @@ public:
     QString GetName();
 public slots:
     void SetProfile();
-//    void SetUserSettings();
+    void SetUserSettings();
 //    void SetMakeDeal();
 };
 
