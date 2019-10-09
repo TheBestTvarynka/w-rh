@@ -6,6 +6,7 @@
 #include <QPushButton>
 
 #include "account/account.h"
+#include "proposals/proposalsviewer.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainGUIWindow; }
