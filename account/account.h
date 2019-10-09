@@ -11,10 +11,12 @@
 
 #include "authorizationhandler.h"
 #include "../proposals/proposalsender.h"
+#include "../data/userdataloader.h"
 
 class Account : public QSplitter
 {
     Q_OBJECT
+    UserDataLoader *loader;
     QWidget *content;
     QString username;
 public:

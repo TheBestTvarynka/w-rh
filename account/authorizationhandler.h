@@ -7,6 +7,9 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QJsonDocument>
+#include <QFile>
+#include <QMessageBox>
 
 class Account;
 
@@ -22,6 +25,7 @@ public:
     AuthorizationHandler();
 public slots:
     void LogIn();
+    bool VertifyAccount(QString, QString);
     QString GetUserName();
     QString GetUserPass();
 };

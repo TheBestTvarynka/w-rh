@@ -46,7 +46,7 @@ void Account::LogIn()
 {
     AuthorizationHandler *login = new AuthorizationHandler;
     login->exec();
-
+    username = login->GetUserName();
 }
 
 QString Account::GetName()

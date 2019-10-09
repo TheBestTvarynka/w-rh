@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     account/account.cpp \
     account/authorizationhandler.cpp \
+    data/userdataloader.cpp \
     main.cpp \
     mainguiwindow.cpp \
     proposals/filter.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
 HEADERS += \
     account/account.h \
     account/authorizationhandler.h \
+    data/userdataloader.h \
     mainguiwindow.h \
     proposals/filter.h \
     proposals/proposalsender.h \
