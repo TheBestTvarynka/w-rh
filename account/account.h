@@ -7,6 +7,7 @@
 #include <QHBoxLayout>
 #include <QSpacerItem>
 #include <QLabel>
+#include <QListWidget>
 
 #include "authorizationhandler.h"
 
@@ -23,7 +24,7 @@ public:
 public slots:
     void SetProfile();
     void SetUserSettings();
-//    void SetMakeDeal();
+    void SetMakeProposal();
 };
 
 #endif // ACCOUNT_H

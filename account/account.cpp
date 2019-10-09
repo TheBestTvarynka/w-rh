@@ -7,8 +7,8 @@ Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
     connect(profile, SIGNAL(clicked()), this, SLOT(SetProfile()));
     QPushButton *settings = new QPushButton("Accout settings");
     connect(settings, SIGNAL(clicked()), this, SLOT(SetUserSettings()));
-    QPushButton *makeDeal = new QPushButton("Make a proposal");
-//    connect(profile, SIGNAL(clicked()), this, SLOT(SetProfile()));
+    QPushButton *makeProposal = new QPushButton("Make a proposal");
+    connect(makeProposal, SIGNAL(clicked()), this, SLOT(SetMakeProposal()));
     QPushButton *logOut = new QPushButton("Log out");
 //    connect(profile, SIGNAL(clicked()), this, SLOT(SetProfile()));
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
@@ -17,7 +17,7 @@ Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
     sideBarLayout->setMargin(0);
     sideBarLayout->addWidget(profile);
     sideBarLayout->addWidget(settings);
-    sideBarLayout->addWidget(makeDeal);
+    sideBarLayout->addWidget(makeProposal);
     sideBarLayout->addWidget(logOut);
     sideBarLayout->addItem(space);
 
@@ -104,8 +104,62 @@ void Account::SetUserSettings()
     QVBoxLayout *email = new QVBoxLayout;
     email->addWidget(emailLabel);
     email->addWidget(emailEdit);
-    QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
-    email->addItem(space);
 
+    QLabel *paymentLabel = new QLabel("Bank account");
+    QLineEdit *paymentEdit = new QLineEdit;
+    QVBoxLayout *payment = new QVBoxLayout;
+    payment->addWidget(paymentLabel);
+    payment->addWidget(paymentEdit);
+
+    QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
     page->addLayout(email);
+    page->addLayout(payment);
+    page->addItem(space);
+}
+
+void Account::SetMakeProposal()
+{
+    QVBoxLayout *page = (QVBoxLayout *)(content->layout());
+    ClearLayout(page);
+
+    QLabel *proposalsLabel = new QLabel("Your proposals");
+    QListWidget *proposalsList = new QListWidget;
+    QVBoxLayout *proposals = new QVBoxLayout;
+    proposals->addWidget(proposalsLabel);
+    proposals->addWidget(proposalsList);
+
+    QLabel *addProposalLabel = new QLabel("Add new proposal");
+
+    QLabel *addressLabel = new QLabel("Address of house");
+    QLineEdit *addressEdit = new QLineEdit;
+    QVBoxLayout *address = new QVBoxLayout;
+    address->addWidget(addressLabel);
+    address->addWidget(addressEdit);
+
+    QLabel *bankLabel = new QLabel("Bank account");
+    QLineEdit *bankEdit = new QLineEdit;
+    QVBoxLayout *bank = new QVBoxLayout;
+    bank->addWidget(bankLabel);
+    bank->addWidget(bankEdit);
+
+    QListWidget *filesList = new QListWidget;
+    QPushButton *deleteFile = new QPushButton("Delete file");
+    QPushButton *addFile = new QPushButton("Add file");
+    QHBoxLayout *manageFiles = new QHBoxLayout;
+    manageFiles->addWidget(deleteFile);
+    manageFiles->addWidget(addFile);
+    QVBoxLayout *files = new QVBoxLayout;
+    files->addWidget(filesList);
+    files->addLayout(manageFiles);
+
+    QPushButton *makeProposal = new QPushButton("add proposal");
+
+    QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
+    page->addLayout(proposals);
+    page->addWidget(addProposalLabel);
+    page->addLayout(address);
+    page->addLayout(bank);
+    page->addLayout(files);
+    page->addWidget(makeProposal);
+    page->addItem(space);
 }
