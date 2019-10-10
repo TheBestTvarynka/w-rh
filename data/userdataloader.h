@@ -5,8 +5,9 @@
 
 class UserDataLoader
 {
+    QString user;
 public:
-    UserDataLoader();
+    UserDataLoader(QString);
 };
 
 #endif // USERDATALOADER_H

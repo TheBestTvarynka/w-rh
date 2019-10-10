@@ -1,6 +1,6 @@
 #include "userdataloader.h"
 
-UserDataLoader::UserDataLoader()
+UserDataLoader::UserDataLoader(QString name)
 {
-
+    user = name;
 }

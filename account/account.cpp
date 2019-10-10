@@ -116,6 +116,7 @@ void Account::SetMakeProposal()
     proposals->addWidget(proposalsList);
 
     ProposalSender *sender = new ProposalSender;
+    sender->SetOwner(username);
 
     page->addLayout(proposals);
     page->addWidget(sender);

@@ -51,7 +51,7 @@ void AuthorizationHandler::LogIn()
 
 bool AuthorizationHandler::VertifyAccount(QString login, QString password)
 {
-    QFile usersDB("./users.json");
+    QFile usersDB("users.json");
     usersDB.open(QIODevice::ReadOnly | QIODevice::Text);
     if (!usersDB.isOpen())
     {

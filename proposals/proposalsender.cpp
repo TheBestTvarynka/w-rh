@@ -2,6 +2,12 @@
 
 ProposalSender::ProposalSender()
 {
+    name = "";
+    roomNumber = "";
+    price = "";
+    location = "";
+    nameOwner = "";
+
     QLabel *addProposalLabel = new QLabel("Add new proposal");
 
     QLabel *addressLabel = new QLabel("Address of house");
@@ -54,4 +60,9 @@ ProposalSender::ProposalSender()
     page->addItem(space);
 
     this->setLayout(page);
+}
+
+void ProposalSender::SetOwner(QString name)
+{
+    nameOwner = name;
 }
