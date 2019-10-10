@@ -2,6 +2,8 @@
 
 ProposalsViewer::ProposalsViewer()
 {
+    data = new DataManager("proposals.json");
+
     Filter *filter = new Filter;
     QWidget *proposals = new QWidget;
     proposals->setStyleSheet("QWidget {"

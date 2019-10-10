@@ -3,11 +3,13 @@
 
 #include <QSplitter>
 
+#include "../data/datamanager.h"
 #include "filter.h"
 
 class ProposalsViewer : public QWidget
 {
     Q_OBJECT
+    DataManager *data;
 public:
     ProposalsViewer();
 };
