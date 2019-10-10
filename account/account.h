@@ -12,6 +12,7 @@
 #include "authorizationhandler.h"
 #include "../proposals/proposalsender.h"
 #include "../data/userdataloader.h"
+#include "usersettings.h"
 
 class Account : public QSplitter
 {

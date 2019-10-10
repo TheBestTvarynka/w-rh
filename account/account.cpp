@@ -99,22 +99,9 @@ void Account::SetUserSettings()
     QVBoxLayout *page = (QVBoxLayout *)(content->layout());
     ClearLayout(page);
 
-    QLabel *emailLabel = new QLabel("Email address");
-    QLineEdit *emailEdit = new QLineEdit;
-    QVBoxLayout *email = new QVBoxLayout;
-    email->addWidget(emailLabel);
-    email->addWidget(emailEdit);
+    UserSettings *settings = new UserSettings;
 
-    QLabel *paymentLabel = new QLabel("Bank account");
-    QLineEdit *paymentEdit = new QLineEdit;
-    QVBoxLayout *payment = new QVBoxLayout;
-    payment->addWidget(paymentLabel);
-    payment->addWidget(paymentEdit);
-
-    QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
-    page->addLayout(email);
-    page->addLayout(payment);
-    page->addItem(space);
+    page->addWidget(settings);
 }
 
 void Account::SetMakeProposal()
