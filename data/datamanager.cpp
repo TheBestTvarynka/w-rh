@@ -21,7 +21,6 @@ DataManager::DataManager(QString path)
     {
         proposals->insert(i.key(), i.value().toString());
     }
-    qDebug() << *proposals;
 }
 
 QMap<QString, QString> *DataManager::GetProposals()

@@ -24,6 +24,7 @@ SOURCES += \
     main.cpp \
     mainguiwindow.cpp \
     proposals/filter.cpp \
+    proposals/proposalitem.cpp \
     proposals/proposalsender.cpp \
     proposals/proposalsviewer.cpp
 
@@ -35,6 +36,7 @@ HEADERS += \
     data/userdataloader.h \
     mainguiwindow.h \
     proposals/filter.h \
+    proposals/proposalitem.h \
     proposals/proposalsender.h \
     proposals/proposalsviewer.h
 
