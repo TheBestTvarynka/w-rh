@@ -46,6 +46,7 @@ void AuthorizationHandler::LogIn()
     else
     {
         QMessageBox::warning(this, "Error", "Login or password is incorrect");
+        name = "";
     }
 }
 
