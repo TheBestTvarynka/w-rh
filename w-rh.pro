@@ -19,6 +19,7 @@ SOURCES += \
     account/account.cpp \
     account/authorizationhandler.cpp \
     account/usersettings.cpp \
+    data/datamanager.cpp \
     data/userdataloader.cpp \
     main.cpp \
     mainguiwindow.cpp \
@@ -30,6 +31,7 @@ HEADERS += \
     account/account.h \
     account/authorizationhandler.h \
     account/usersettings.h \
+    data/datamanager.h \
     data/userdataloader.h \
     mainguiwindow.h \
     proposals/filter.h \
