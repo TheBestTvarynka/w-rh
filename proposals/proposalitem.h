@@ -1,17 +1,22 @@
 #ifndef PROPOSALITEM_H
 #define PROPOSALITEM_H
 
-#include <QWidget>
+#include <QPushButton>
 #include <QLabel>
 #include <QString>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-class ProposalItem : public QWidget
+class ProposalsViewer;
+
+class ProposalItem : public QPushButton
 {
     Q_OBJECT
+    ProposalsViewer *parent;
 public:
-    ProposalItem(QString, QString, QString);
+    ProposalItem(ProposalsViewer *, QString, QString, QString);
+public slots:
+    void MakeDeal();
 };
 
 #endif // PROPOSALITEM_H

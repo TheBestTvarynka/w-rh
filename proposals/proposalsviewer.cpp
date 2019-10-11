@@ -16,9 +16,9 @@ ProposalsViewer::ProposalsViewer()
         for (int j = 0; j < 3 && it.hasNext(); j++)
         {
             it.next();
-            item = new ProposalItem(it.key(), it.value(), "QWidget {"
-                                                          "background: #f79216;"
-                                                          "color: #228714; }");
+            item = new ProposalItem(this, it.key(), it.value(), "QWidget {"
+                                                                "background: #f79216;"
+                                                                "color: #228714; }");
             layout->addWidget(item, i, j);
         }
     }
@@ -32,7 +32,7 @@ ProposalsViewer::ProposalsViewer()
     QScrollArea *content = new QScrollArea;
     content->setWidget(blank);
 
-    QSplitter *main = new QSplitter;
+    main = new QSplitter;
     main->addWidget(filter);
     main->addWidget(content);
 
@@ -40,5 +40,12 @@ ProposalsViewer::ProposalsViewer()
     page->addWidget(main);
 
     this->setLayout(page);
+}
+
+void ProposalsViewer::SetMakeDialWindow(ProposalItem *house)
+{
+    DealHandler *deal = new DealHandler(this);
+    deal->setModal(true);
+    deal->exec();
 }
 
