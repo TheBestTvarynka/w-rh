@@ -11,7 +11,7 @@ class ProposalItem : public QWidget
 {
     Q_OBJECT
 public:
-    ProposalItem(QString, QString);
+    ProposalItem(QString, QString, QString);
 };
 
 #endif // PROPOSALITEM_H

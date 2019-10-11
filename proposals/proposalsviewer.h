@@ -4,6 +4,7 @@
 #include <QSplitter>
 #include <QScrollArea>
 #include <QGridLayout>
+#include <QFrame>
 
 #include "../data/datamanager.h"
 #include "proposalitem.h"
