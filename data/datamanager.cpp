@@ -3,7 +3,6 @@
 DataManager::DataManager(QString path)
 {
     PATH = path;
-    proposals = new QMap<QString, QString>;
 
     QFile usersDB("proposals.json");
     usersDB.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -19,11 +18,38 @@ DataManager::DataManager(QString path)
 
     for (QJsonObject::iterator i = proposalsData.begin(); i != proposalsData.end(); i++)
     {
-        proposals->insert(i.key(), i.value().toString());
+        qDebug() << i.value().isArray(); // yes, it's array
+        AddProposal(i.value());
+//        i.value().toArray().
+//        proposals->insert(i.key(), i.value().);
     }
 }
 
-QMap<QString, QString> *DataManager::GetProposals()
+void DataManager::AddProposal(QJsonValue item)
 {
-    return proposals;
+    QVector<QString> titles;
+    titles.push_back("Name");
+    titles.push_back("Address");
+    titles.push_back("Number of rooms");
+    titles.push_back("Price");
+    titles.push_back("Photos");
+
+    QMap<QString, QString> proposal;
+    proposal.insert("Name", item["Name"].toString());
+    proposal.insert("Address", item["Address"].toString());
+    proposal.insert("Number of rooms", item["Number of rooms"].toString());
+    proposal.insert("Price", item["Price"].toString());
+
+    QJsonArray files = item["Photos"].toArray();
+    for (QJsonArray::iterator i = files.begin(); i != files.end(); i++)
+    {
+
+    }
+
+//    for (QJsonArray::iterator i = item.at(3); i != )
 }
+
+//QMap<QString, QString> *DataManager::GetProposals()
+//{
+//    return proposals;
+//}

@@ -6,6 +6,7 @@
 #include <QString>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QMap>
 
 class ProposalsViewer;
 
@@ -13,8 +14,9 @@ class ProposalItem : public QPushButton
 {
     Q_OBJECT
     ProposalsViewer *parent;
+    QMap<QString, QString> data;
 public:
-    ProposalItem(ProposalsViewer *, QString, QString, QString);
+    ProposalItem(ProposalsViewer *, const QMap<QString, QString> &, QString);
 public slots:
     void MakeDeal();
 };

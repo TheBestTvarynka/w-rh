@@ -6,15 +6,18 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QMap>
+#include <QVector>
+#include <QVariant>
 #include <QString>
 
 class DataManager
 {
     QString PATH;
-    QMap<QString, QString> *proposals;
+    QVector<QMap<QString, QVariant> > proposals;
 public:
     DataManager(QString);
-    QMap<QString, QString> *GetProposals();
+    void AddProposal(QJsonValue);
+//    QMap<QString, QString> *GetProposals();
 };
 
 #endif // DATAMANAGER_H
