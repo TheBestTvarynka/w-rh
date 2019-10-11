@@ -10,10 +10,14 @@
 #include <QListWidget>
 
 #include "authorizationhandler.h"
+#include "../proposals/proposalsender.h"
+#include "../data/userdataloader.h"
+#include "usersettings.h"
 
 class Account : public QSplitter
 {
     Q_OBJECT
+    UserDataLoader *loader;
     QWidget *content;
     QString username;
 public:
@@ -22,7 +26,6 @@ public:
     void LogIn();
     QString GetName();
 public slots:
-    void SetProfile();
     void SetUserSettings();
     void SetMakeProposal();
 };

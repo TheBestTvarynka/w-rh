@@ -18,16 +18,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     account/account.cpp \
     account/authorizationhandler.cpp \
+    account/usersettings.cpp \
+    bank/dealhandler.cpp \
+    data/datamanager.cpp \
+    data/userdataloader.cpp \
     main.cpp \
     mainguiwindow.cpp \
     proposals/filter.cpp \
+    proposals/proposalitem.cpp \
+    proposals/proposalsender.cpp \
     proposals/proposalsviewer.cpp
 
 HEADERS += \
     account/account.h \
     account/authorizationhandler.h \
+    account/usersettings.h \
+    bank/dealhandler.h \
+    data/datamanager.h \
+    data/userdataloader.h \
     mainguiwindow.h \
     proposals/filter.h \
+    proposals/proposalitem.h \
+    proposals/proposalsender.h \
     proposals/proposalsviewer.h
 
 FORMS += \
@@ -37,3 +49,4 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
