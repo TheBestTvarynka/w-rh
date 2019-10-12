@@ -8,6 +8,7 @@
 #include <QHBoxLayout>
 #include <QMap>
 #include <QVariant>
+#include <QPixmap>
 
 class ProposalsViewer;
 

@@ -18,7 +18,6 @@ DataManager::DataManager(QString path)
 
     for (QJsonObject::iterator i = proposalsData.begin(); i != proposalsData.end(); i++)
     {
-        qDebug() << "item: " << i.value();
         proposals.push_back(ConvertJsonValueToProposal(i.value()));
     }
 }
@@ -38,7 +37,6 @@ QMap<QString, QVariant> DataManager::ConvertJsonValueToProposal(QJsonValue item)
             proposal.insert(i.key().toUtf8(), i.value().toString());
         }
     }
-    qDebug() << "Read: " << proposal;
     return proposal;
 }
 

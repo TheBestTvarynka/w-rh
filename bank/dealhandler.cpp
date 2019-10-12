@@ -7,6 +7,8 @@ void DealHandler::CreateTitles()
     titles.push_back("Number of rooms");
     titles.push_back("Price");
     titles.push_back("Photos");
+
+
 }
 
 DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
