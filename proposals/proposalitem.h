@@ -14,9 +14,9 @@ class ProposalItem : public QPushButton
 {
     Q_OBJECT
     ProposalsViewer *parent;
-    QMap<QString, QString> data;
+    QMap<QString, QVariant> proposal;
 public:
-    ProposalItem(ProposalsViewer *, const QMap<QString, QString> &, QString);
+    ProposalItem(ProposalsViewer *, const QMap<QString, QVariant> &);
 public slots:
     void MakeDeal();
 };

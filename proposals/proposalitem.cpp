@@ -1,18 +1,14 @@
 #include "proposalitem.h"
 #include "proposalsviewer.h"
 
-ProposalItem::ProposalItem(ProposalsViewer *p, const QMap<QString, QString> &origin, QString design)
+ProposalItem::ProposalItem(ProposalsViewer *p, const QMap<QString, QVariant> &origin)
 {
     parent = p;
-//    QLabel *HEAD = new QLabel(head);
-//    QLabel *TEXT = new QLabel(text);
+    proposal = origin;
 
     QVBoxLayout *page = new QVBoxLayout;
-//    page->addWidget(HEAD);
-//    page->addWidget(TEXT);
 
     this->setLayout(page);
-    this->setStyleSheet(design);
     this->setFixedHeight(200);
     this->setFixedWidth(200);
 
