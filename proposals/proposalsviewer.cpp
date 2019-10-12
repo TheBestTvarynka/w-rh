@@ -5,6 +5,8 @@ ProposalsViewer::ProposalsViewer()
 {
     data = new DataManager("proposals.json");
 
+    DataManager::iterator it = data->begin();
+
     Filter *filter = new Filter;
 
 //    QMap<QString, QString> *proposalsAll = data->GetProposals();

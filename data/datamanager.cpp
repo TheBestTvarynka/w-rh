@@ -52,7 +52,3 @@ QList<QVariant> DataManager::ConvertJsonArrayToList(QJsonArray array)
     return result;
 }
 
-//QMap<QString, QString> *DataManager::GetProposals()
-//{
-//    return proposals;
-//}
