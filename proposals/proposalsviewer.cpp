@@ -4,35 +4,30 @@
 ProposalsViewer::ProposalsViewer()
 {
     data = new DataManager("proposals.json");
-
-    DataManager::iterator it = data->begin();
-
     Filter *filter = new Filter;
 
-//    QMap<QString, QString> *proposalsAll = data->GetProposals();
-//    QMapIterator<QString, QString> it(*proposalsAll);
-//    QGridLayout *layout = new QGridLayout;
-//    ProposalItem *item;
-//    for (int i = 0; it.hasNext(); i++)
-//    {
-//        for (int j = 0; j < 3 && it.hasNext(); j++)
-//        {
-//            it.next();
-//            item = new ProposalItem(this, it.key(), it.value(), "QWidget {"
-//                                                                "background: #f79216;"
-//                                                                "color: #228714; }");
-//            layout->addWidget(item, i, j);
-//        }
-//    }
-//    layout->setMargin(2);
+    int position = 0;
+    QGridLayout *layout = new QGridLayout;
+    ProposalItem *item;
+    DataManager::iterator it = data->begin();
+    while (it.hasNext())
+    {
+        qDebug() << it.value();
+        item = new ProposalItem(this, it.value());
+        layout->addWidget(item, position / 2, position % 2);
+        position++;
+        it.next();
+    }
 
-//    QWidget *blank = new QWidget;
-//    blank->setLayout(layout);
-//    blank->setStyleSheet("QWidget {"
-//                         "background: #89f0e9; }");
+    layout->setMargin(2);
+
+    QWidget *blank = new QWidget;
+    blank->setLayout(layout);
+    blank->setStyleSheet("QWidget {"
+                         "background: #89f0e9; }");
 
     QScrollArea *content = new QScrollArea;
-//    content->setWidget(blank);
+    content->setWidget(blank);
 
     main = new QSplitter;
     main->addWidget(filter);
