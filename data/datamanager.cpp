@@ -18,35 +18,38 @@ DataManager::DataManager(QString path)
 
     for (QJsonObject::iterator i = proposalsData.begin(); i != proposalsData.end(); i++)
     {
-        qDebug() << i.value().isArray(); // yes, it's array
-        AddProposal(i.value());
-//        i.value().toArray().
-//        proposals->insert(i.key(), i.value().);
+        qDebug() << "item: " << i.value();
+        proposals.push_back(ConvertJsonValueToProposal(i.value()));
     }
 }
 
-void DataManager::AddProposal(QJsonValue item)
+QMap<QString, QVariant> DataManager::ConvertJsonValueToProposal(QJsonValue item)
 {
-    QVector<QString> titles;
-    titles.push_back("Name");
-    titles.push_back("Address");
-    titles.push_back("Number of rooms");
-    titles.push_back("Price");
-    titles.push_back("Photos");
-
-    QMap<QString, QString> proposal;
-    proposal.insert("Name", item["Name"].toString());
-    proposal.insert("Address", item["Address"].toString());
-    proposal.insert("Number of rooms", item["Number of rooms"].toString());
-    proposal.insert("Price", item["Price"].toString());
-
-    QJsonArray files = item["Photos"].toArray();
-    for (QJsonArray::iterator i = files.begin(); i != files.end(); i++)
+    QJsonObject object = item.toObject();
+    QMap<QString, QVariant> proposal;
+    for (QJsonObject::iterator i = object.begin(); i != object.end(); i++)
     {
-
+        if (i->isArray())
+        {
+            proposal.insert(i.key(), ConvertJsonArrayToList(i->toArray()));
+        }
+        else
+        {
+            proposal.insert(i.key().toUtf8(), i.value().toString());
+        }
     }
+    qDebug() << "Read: " << proposal;
+    return proposal;
+}
 
-//    for (QJsonArray::iterator i = item.at(3); i != )
+QList<QVariant> DataManager::ConvertJsonArrayToList(QJsonArray array)
+{
+    QList<QVariant> result;
+    for (QJsonArray::iterator i = array.begin(); i != array.end(); i++)
+    {
+        result.push_back(i->toString());
+    }
+    return result;
 }
 
 //QMap<QString, QString> *DataManager::GetProposals()

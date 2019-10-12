@@ -9,6 +9,7 @@
 #include <QVector>
 #include <QVariant>
 #include <QString>
+#include <QList>
 
 class DataManager
 {
@@ -16,8 +17,8 @@ class DataManager
     QVector<QMap<QString, QVariant> > proposals;
 public:
     DataManager(QString);
-    void AddProposal(QJsonValue);
-//    QMap<QString, QString> *GetProposals();
+    QMap<QString, QVariant> ConvertJsonValueToProposal(QJsonValue);
+    QList<QVariant> ConvertJsonArrayToList(QJsonArray);
 };
 
 #endif // DATAMANAGER_H
