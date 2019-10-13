@@ -19,6 +19,7 @@ SOURCES += \
     account/account.cpp \
     account/authorizationhandler.cpp \
     account/usersettings.cpp \
+    bank/bank.cpp \
     bank/dealhandler.cpp \
     data/datamanager.cpp \
     data/userdataloader.cpp \
@@ -33,6 +34,7 @@ HEADERS += \
     account/account.h \
     account/authorizationhandler.h \
     account/usersettings.h \
+    bank/bank.h \
     bank/dealhandler.h \
     data/datamanager.h \
     data/userdataloader.h \

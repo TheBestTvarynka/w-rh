@@ -14,10 +14,12 @@ class DealHandler : public QDialog
 {
     Q_OBJECT
     ProposalItem *item;
-    QVector<QString> titles;
-    void CreateTitles();
+    QString bancAccountNumber;
+    QLineEdit *bankAccount
 public:
     DealHandler(QWidget *, ProposalItem *);
+public slots:
+    void SetBankAccountNumber(QString);
 };
 
 #endif // DEALHANDLER_H

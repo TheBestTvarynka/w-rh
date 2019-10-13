@@ -1,16 +1,5 @@
 #include "dealhandler.h"
 
-void DealHandler::CreateTitles()
-{
-    titles.push_back("Name");
-    titles.push_back("Address");
-    titles.push_back("Number of rooms");
-    titles.push_back("Price");
-    titles.push_back("Photos");
-
-
-}
-
 DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
 {
     item = i;
@@ -48,7 +37,8 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
     }
 
     title = new QLabel("Enter your bank account: ");
-    QLineEdit *bankAccount = new QLineEdit;
+    bankAccount = new QLineEdit;
+    connect(bankAccount, SIGNAL(textEdited(const QString &text)), this, SLOT(SetBankAccountNumber(QString)));
     QVBoxLayout *bank = new QVBoxLayout;
     bank->addWidget(title);
     bank->addWidget(bankAccount);
@@ -60,4 +50,9 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
     page->addWidget(submit);
     page->addItem(space);
     this->setLayout(page);
+}
+
+void DealHandler::SetBankAccountNumber(QString newBankAccountNumber)
+{
+    bancAccountNumber = newBankAccountNumber;
 }
