@@ -38,12 +38,13 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
 
     title = new QLabel("Enter your bank account: ");
     bankAccount = new QLineEdit;
-    connect(bankAccount, SIGNAL(textEdited(const QString &text)), this, SLOT(SetBankAccountNumber(QString)));
+    connect(bankAccount, SIGNAL(textEdited(const QString &)), this, SLOT(SetBankAccountNumber(QString)));
     QVBoxLayout *bank = new QVBoxLayout;
     bank->addWidget(title);
     bank->addWidget(bankAccount);
 
     QPushButton *submit = new QPushButton("Submit");
+    connect(submit, SIGNAL(clicked()), this, SLOT(MakeDial()));
 
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
     page->addLayout(bank);
@@ -55,4 +56,10 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
 void DealHandler::SetBankAccountNumber(QString newBankAccountNumber)
 {
     bancAccountNumber = newBankAccountNumber;
+}
+
+void DealHandler::MakeDial()
+{
+    Bank *bank = new Bank("bankusers.json");
+
 }
