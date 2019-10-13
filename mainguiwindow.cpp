@@ -10,6 +10,7 @@ MainGUIWindow::MainGUIWindow(QWidget *parent)
 
     user = new Account(Qt::Horizontal);
     proposals = new ProposalsViewer;
+    setting = new UserSettings;
 
     content = new QWidget;
     content->setLayout(new QVBoxLayout);
@@ -34,11 +35,14 @@ QWidget *MainGUIWindow::SetTopPanel()
     QLabel *logo = new QLabel("W-RH");
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Expanding, QSizePolicy::Preferred);
     QPushButton *profile = new QPushButton("Profile");
+    QPushButton *Setting = new QPushButton("Setting");
     QObject::connect(profile, SIGNAL(clicked()), this, SLOT(LoadProfile()));
+    QObject::connect(Setting, SIGNAL(clicked()), this, SLOT(SetSetting()));
 
     QHBoxLayout *topPanelLayout = new QHBoxLayout;
     topPanelLayout->addWidget(logo);
     topPanelLayout->addItem(space);
+    topPanelLayout->addWidget(Setting);
     topPanelLayout->addWidget(profile);
     topPanelLayout->setMargin(0);
 
@@ -92,3 +96,7 @@ void MainGUIWindow::LoadProposals()
     current->addWidget(proposals);
 }
 
+void MainGUIWindow::SetSetting(){
+    user->hide();
+    setting->show();
+}

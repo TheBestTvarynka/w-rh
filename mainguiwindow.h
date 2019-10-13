@@ -7,6 +7,7 @@
 
 #include "account/account.h"
 #include "proposals/proposalsviewer.h"
+#include "account/usersettings.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainGUIWindow; }
@@ -18,6 +19,7 @@ class MainGUIWindow : public QMainWindow
     QWidget *content;
     Account *user;
     QWidget *proposals;
+    QWidget *setting;
 public:
     MainGUIWindow(QWidget *parent = nullptr);
     ~MainGUIWindow();
@@ -27,5 +29,6 @@ private:
 public slots:
     void LoadProfile();
     void LoadProposals();
+    void SetSetting();
 };
 #endif // MAINGUIWINDOW_H
