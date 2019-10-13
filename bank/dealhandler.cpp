@@ -63,4 +63,5 @@ void DealHandler::MakeDial()
     Bank *bank = new Bank("bankusers.json");
 
     emit AddToUser(item->GetProposalDetails("id").toString());
+    this->close();
 }
