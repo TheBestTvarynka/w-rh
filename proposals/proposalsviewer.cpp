@@ -1,8 +1,11 @@
 #include "proposalsviewer.h"
+#include "account/account.h"
 #include <QDebug>
 
-ProposalsViewer::ProposalsViewer()
+ProposalsViewer::ProposalsViewer(Account *p)
 {
+    user = p;
+
     data = new DataManager("proposals.json");
     Filter *filter = new Filter;
 
@@ -40,8 +43,13 @@ ProposalsViewer::ProposalsViewer()
 
 void ProposalsViewer::SetMakeDialWindow(ProposalItem *house)
 {
+    if (user->GetName() == "")
+    {
+        QMessageBox::warning(this, "Need to login", "For making a deal you nedd to login in ouw system");
+        return;
+    }
     DealHandler *deal = new DealHandler(this, house);
     deal->setModal(true);
     deal->exec();
+    delete deal;
 }
-

@@ -22,6 +22,7 @@ public:
     MainGUIWindow(QWidget *parent = nullptr);
     ~MainGUIWindow();
     QWidget *SetTopPanel();
+    Account *GetAccount() { return user; }
 private:
     Ui::MainGUIWindow *ui;
 public slots:

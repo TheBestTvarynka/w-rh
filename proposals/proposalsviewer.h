@@ -11,13 +11,16 @@
 #include "proposalitem.h"
 #include "filter.h"
 
+class Account;
+
 class ProposalsViewer : public QWidget
 {
     Q_OBJECT
     DataManager *data;
     QSplitter *main;
+    Account *user;
 public:
-    ProposalsViewer();
+    ProposalsViewer(Account *);
     void SetMakeDialWindow(ProposalItem *);
 };
 

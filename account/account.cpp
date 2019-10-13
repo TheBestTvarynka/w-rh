@@ -5,10 +5,9 @@ Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
     username = "";
     QPushButton *settings = new QPushButton("Accout settings");
     connect(settings, SIGNAL(clicked()), this, SLOT(SetUserSettings()));
-    QPushButton *makeProposal = new QPushButton("Make a proposal");
+    QPushButton *makeProposal = new QPushButton("Proposal manager");
     connect(makeProposal, SIGNAL(clicked()), this, SLOT(SetMakeProposal()));
     QPushButton *logOut = new QPushButton("Log out");
-//    connect(profile, SIGNAL(clicked()), this, SLOT(SetProfile()));
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
 
     QVBoxLayout *sideBarLayout = new QVBoxLayout;
