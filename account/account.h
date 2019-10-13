@@ -26,6 +26,7 @@ public:
     void LogIn();
 public slots:
     QString GetName();
+    void AddProposalToUser(QString);
     void SetUserSettings();
     void SetMakeProposal();
 };

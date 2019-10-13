@@ -7,7 +7,7 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
 
     QHBoxLayout *inscription;
     QLabel *title, *value;
-    QMap<QString, QVariant> *details = i->GetProposalDetails();
+    QMap<QString, QVariant> *details = i->GetProposal();
     for (QMap<QString, QVariant>::Iterator i = details->begin(); i != details->end(); i++)
     {
         if (i->type() == QVariant::Type::List)
@@ -62,4 +62,5 @@ void DealHandler::MakeDial()
 {
     Bank *bank = new Bank("bankusers.json");
 
+    emit AddToUser(item->GetProposalDetails("id").toString());
 }

@@ -23,6 +23,8 @@ public:
 public slots:
     void SetBankAccountNumber(QString);
     void MakeDial();
+signals:
+    void AddToUser(QString);
 };
 
 #endif // DEALHANDLER_H

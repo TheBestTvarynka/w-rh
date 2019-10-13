@@ -1,4 +1,5 @@
 #include "account.h"
+#include <QDebug>
 
 Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
 {
@@ -48,6 +49,12 @@ void Account::LogIn()
 QString Account::GetName()
 {
     return username;
+}
+
+void Account::AddProposalToUser(QString id)
+{
+    // there we add proposal id to user data
+    qDebug() << "id of proposal: " << id;
 }
 
 void Account::SetUserSettings()

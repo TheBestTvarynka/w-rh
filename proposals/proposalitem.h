@@ -21,7 +21,8 @@ class ProposalItem : public QPushButton
     QMap<QString, QVariant> proposal;
 public:
     ProposalItem(ProposalsViewer *, const QMap<QString, QVariant> &);
-    QMap<QString, QVariant> *GetProposalDetails() { return &proposal; }
+    QMap<QString, QVariant> *GetProposal() { return &proposal; }
+    QVariant GetProposalDetails(QString parameter) { return proposal[parameter]; }
 public slots:
     void MakeDeal();
 };
