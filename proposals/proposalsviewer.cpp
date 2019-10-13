@@ -45,8 +45,9 @@ void ProposalsViewer::SetMakeDialWindow(ProposalItem *house)
 {
     if (user->GetName() == "")
     {
-        QMessageBox::warning(this, "Need to login", "For making a deal you nedd to login in our system");
-        return;
+        user->LogIn();
+        if (user->GetName() == "")
+            return;
     }
     DealHandler *deal = new DealHandler(this, house);
     connect(deal, SIGNAL(AddToUser(QString)), user, SLOT(AddProposalToUser(QString)));
