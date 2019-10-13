@@ -12,7 +12,6 @@ ProposalsViewer::ProposalsViewer()
     DataManager::iterator it = data->begin();
     while (it.hasNext())
     {
-        qDebug() << it.value();
         item = new ProposalItem(this, it.value());
         layout->addWidget(item, position / 2, position % 2);
         position++;

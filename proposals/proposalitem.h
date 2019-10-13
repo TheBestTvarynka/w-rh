@@ -10,6 +10,8 @@
 #include <QVariant>
 #include <QPixmap>
 
+#include <iterator>
+
 class ProposalsViewer;
 
 class ProposalItem : public QPushButton
@@ -19,6 +21,7 @@ class ProposalItem : public QPushButton
     QMap<QString, QVariant> proposal;
 public:
     ProposalItem(ProposalsViewer *, const QMap<QString, QVariant> &);
+    QMap<QString, QVariant> *GetProposalDetails() { return &proposal; }
 public slots:
     void MakeDeal();
 };
