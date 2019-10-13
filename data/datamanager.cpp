@@ -8,7 +8,7 @@ DataManager::DataManager(QString path)
     usersDB.open(QIODevice::ReadOnly | QIODevice::Text);
     if (!usersDB.isOpen())
     {
-        qDebug() << "no users file";
+        qDebug() << "no proposals file";
         return;
     }
     QString data = usersDB.readAll();

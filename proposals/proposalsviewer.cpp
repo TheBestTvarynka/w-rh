@@ -7,7 +7,7 @@ ProposalsViewer::ProposalsViewer(Account *p)
     user = p;
 
     data = new DataManager("proposals.json");
-    Filter *filter = new Filter;
+    Filter *filter = new Filter(data);
 
     int position = 0;
     QGridLayout *layout = new QGridLayout;
