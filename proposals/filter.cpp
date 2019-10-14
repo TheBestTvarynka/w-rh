@@ -6,9 +6,11 @@ Filter::Filter(DataManager *ps)
     proposals = ps;
     QLabel *h = new QLabel("Filter");
 
-    roomsTo = roomsFrom = 0;
-    priceTo = priceFrom = 0;
-    location = "";
+    roomsFrom = 0;
+    roomsTo = 5;
+    priceFrom = 0;
+    priceTo = 10000;
+    location = "Kyiv";
 
     QLabel *roomsLabel = new QLabel("Number of rooms: ");
     QLineEdit *roomsLeftEdit = new QLineEdit("0");
@@ -58,7 +60,6 @@ Filter::Filter(DataManager *ps)
     page->addItem(space);
 
     this->setLayout(page);
-    FilterItems();
 }
 
 void Filter::EditRoomsFrom(QString from)
