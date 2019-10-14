@@ -8,12 +8,17 @@
 #include <QHBoxLayout>
 #include <QSpacerItem>
 #include <QListWidget>
+#include <QMap>
+#include <QVariant>
+#include <QList>
+#include <QListIterator>
 
 class UserSettings : public QWidget
 {
     Q_OBJECT
+    QMap<QString, QVariant> *userData;
 public:
-    UserSettings();
+    UserSettings(QMap<QString, QVariant> *);
 };
 
 #endif // USERSETTINGS_H

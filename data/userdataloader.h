@@ -11,9 +11,14 @@
 class UserDataLoader
 {
     QString user;
-    QMap<QString,QVariant> *map;
+    QMap<QString, QVariant> *userData;
 public:
-    UserDataLoader(QString);
+    UserDataLoader();
+    QVariant GetPreference(QString);
+    QMap<QString, QVariant> *GetUserData();
+    void ReadUserData(QString);
+    void SetUserData();
+    void WriteSettings(QMap<QString, QVariant>);
 };
 
 #endif // USERDATALOADER_H

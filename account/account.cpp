@@ -5,6 +5,8 @@ Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
 {
     username = "";
     loader = nullptr;
+    loader = new UserDataLoader();
+
     QPushButton *settings = new QPushButton("Accout settings");
     settings->setStyleSheet("QPushButton {"
                             "background: #ffe7d0;"
@@ -96,7 +98,8 @@ void Account::LogIn()
     username = login->GetUserName();
     if (username != "")
     {
-        loader = new UserDataLoader(username);
+        loader->ReadUserData(username);
+        SetUserSettings();
     }
 }
 
@@ -116,8 +119,11 @@ void Account::SetUserSettings()
     QVBoxLayout *page = (QVBoxLayout *)(content->layout());
     ClearLayout(page);
 
-    UserSettings *settings = new UserSettings;
-
+    QWidget *settings;
+    if (username != "")
+        settings = new UserSettings(loader->GetUserData());
+    else
+        settings = new QWidget;
     page->addWidget(settings);
 }
 

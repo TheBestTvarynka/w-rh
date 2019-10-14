@@ -1,15 +1,17 @@
 #include "usersettings.h"
 
-UserSettings::UserSettings()
+UserSettings::UserSettings(QMap<QString, QVariant> *data)
 {
+    userData = data;
+
     QLabel *firstNameLabel = new QLabel("First name");
-    QLineEdit *firstNameEdit = new QLineEdit;
+    QLineEdit *firstNameEdit = new QLineEdit((*userData)["First name"].toString());
     QVBoxLayout *firstName = new QVBoxLayout;
     firstName->addWidget(firstNameLabel);
     firstName->addWidget(firstNameEdit);
 
     QLabel *secondNameLabel = new QLabel("Second name");
-    QLineEdit *secondNameEdit = new QLineEdit;
+    QLineEdit *secondNameEdit = new QLineEdit((*userData)["Second name"].toString());
     QVBoxLayout *secondName = new QVBoxLayout;
     secondName->addWidget(secondNameLabel);
     secondName->addWidget(secondNameEdit);
@@ -19,25 +21,25 @@ UserSettings::UserSettings()
     personName->addItem(secondName);
 
     QLabel *phoneLabel = new QLabel("Phone number");
-    QLineEdit *phoneEdit = new QLineEdit;
+    QLineEdit *phoneEdit = new QLineEdit((*userData)["phone number"].toString());
     QVBoxLayout *phone = new QVBoxLayout;
     phone->addWidget(phoneLabel);
     phone->addWidget(phoneEdit);
 
     QLabel *locationLabel = new QLabel("Location");
-    QLineEdit *locationEdit = new QLineEdit;
+    QLineEdit *locationEdit = new QLineEdit((*userData)["Location"].toString());
     QVBoxLayout *location = new QVBoxLayout;
     location->addWidget(locationLabel);
     location->addWidget(locationEdit);
 
     QLabel *emailLabel = new QLabel("Email address");
-    QLineEdit *emailEdit = new QLineEdit;
+    QLineEdit *emailEdit = new QLineEdit((*userData)["email"].toString());
     QVBoxLayout *email = new QVBoxLayout;
     email->addWidget(emailLabel);
     email->addWidget(emailEdit);
 
     QLabel *paymentLabel = new QLabel("Bank account");
-    QLineEdit *paymentEdit = new QLineEdit;
+    QLineEdit *paymentEdit = new QLineEdit((*userData)["bank account"].toString());
     QVBoxLayout *payment = new QVBoxLayout;
     payment->addWidget(paymentLabel);
     payment->addWidget(paymentEdit);
@@ -49,6 +51,14 @@ UserSettings::UserSettings()
                                  "border-radius: 4px; }"
                                  "QListWidget::item:hover { background: #b88c53; }"
                                  "QListWidget::item:selected { background: #f095ee; }");
+    QList<QVariant> userDials = (*userData)["deals"].toList();
+    QListIterator<QVariant> it(userDials);
+    while (it.hasNext())
+    {
+//        it.next();
+        listDeals->addItem(it.next().toString());
+    }
+
     QPushButton *deleteDeal = new QPushButton("delete");
     QVBoxLayout *deals = new QVBoxLayout;
     deals->addWidget(dealsLabel);
