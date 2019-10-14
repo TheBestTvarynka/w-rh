@@ -23,6 +23,12 @@ public:
     void AddDeals(QString);
 public slots:
     void RemoveDeal();
+    void EditedFirstName(QString);
+    void EditedSeconsName(QString);
+    void EditedEmail(QString);
+    void EditedPhoneNumber(QString);
+    void EditedBankAccount(QString);
+    void EditedLocation(QString);
 };
 
 #endif // USERSETTINGS_H

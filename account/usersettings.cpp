@@ -7,12 +7,14 @@ UserSettings::UserSettings(QMap<QString, QVariant> *data)
 
     QLabel *firstNameLabel = new QLabel("First name");
     QLineEdit *firstNameEdit = new QLineEdit((*userData)["First name"].toString());
+    connect(firstNameEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditedFirstName(QString)));
     QVBoxLayout *firstName = new QVBoxLayout;
     firstName->addWidget(firstNameLabel);
     firstName->addWidget(firstNameEdit);
 
     QLabel *secondNameLabel = new QLabel("Second name");
     QLineEdit *secondNameEdit = new QLineEdit((*userData)["Second name"].toString());
+    connect(secondNameEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditedSeconsName(QString)));
     QVBoxLayout *secondName = new QVBoxLayout;
     secondName->addWidget(secondNameLabel);
     secondName->addWidget(secondNameEdit);
@@ -23,24 +25,28 @@ UserSettings::UserSettings(QMap<QString, QVariant> *data)
 
     QLabel *phoneLabel = new QLabel("Phone number");
     QLineEdit *phoneEdit = new QLineEdit((*userData)["phone number"].toString());
+    connect(phoneEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditedPhoneNumber(QString)));
     QVBoxLayout *phone = new QVBoxLayout;
     phone->addWidget(phoneLabel);
     phone->addWidget(phoneEdit);
 
     QLabel *locationLabel = new QLabel("Location");
     QLineEdit *locationEdit = new QLineEdit((*userData)["Location"].toString());
+    connect(locationEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditedLocation(QString)));
     QVBoxLayout *location = new QVBoxLayout;
     location->addWidget(locationLabel);
     location->addWidget(locationEdit);
 
     QLabel *emailLabel = new QLabel("Email address");
     QLineEdit *emailEdit = new QLineEdit((*userData)["email"].toString());
+    connect(emailEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditedEmail(QString)));
     QVBoxLayout *email = new QVBoxLayout;
     email->addWidget(emailLabel);
     email->addWidget(emailEdit);
 
     QLabel *paymentLabel = new QLabel("Bank account");
     QLineEdit *paymentEdit = new QLineEdit((*userData)["bank account"].toString());
+    connect(paymentEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditedBankAccount(QString)));
     QVBoxLayout *payment = new QVBoxLayout;
     payment->addWidget(paymentLabel);
     payment->addWidget(paymentEdit);
@@ -95,4 +101,34 @@ void UserSettings::RemoveDeal()
     deals.removeOne(QVariant(item->text()));
     (*userData)["deals"] = deals;
     listDeals->takeItem(listDeals->currentRow());
+}
+
+void UserSettings::EditedFirstName(QString newFirstName)
+{
+    (*userData)["First name"] = QVariant(newFirstName);
+}
+
+void UserSettings::EditedSeconsName(QString newSecondName)
+{
+    (*userData)["Second name"] = QVariant(newSecondName);
+}
+
+void UserSettings::EditedEmail(QString newEmail)
+{
+    (*userData)["email"] = QVariant(newEmail);
+}
+
+void UserSettings::EditedPhoneNumber(QString newPhone)
+{
+    (*userData)["phone number"] = QVariant(newPhone);
+}
+
+void UserSettings::EditedBankAccount(QString newBankAccount)
+{
+    (*userData)["bank account"] = QVariant(newBankAccount);
+}
+
+void UserSettings::EditedLocation(QString newLocation)
+{
+    (*userData)["Location"] = QVariant(newLocation);
 }
