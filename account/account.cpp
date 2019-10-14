@@ -1,14 +1,14 @@
 #include "account.h"
+#include <QDebug>
 
 Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
 {
     username = "";
     QPushButton *settings = new QPushButton("Accout settings");
     connect(settings, SIGNAL(clicked()), this, SLOT(SetUserSettings()));
-    QPushButton *makeProposal = new QPushButton("Make a proposal");
+    QPushButton *makeProposal = new QPushButton("Proposal manager");
     connect(makeProposal, SIGNAL(clicked()), this, SLOT(SetMakeProposal()));
     QPushButton *logOut = new QPushButton("Log out");
-//    connect(profile, SIGNAL(clicked()), this, SLOT(SetProfile()));
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
 
     QVBoxLayout *sideBarLayout = new QVBoxLayout;
@@ -49,6 +49,12 @@ void Account::LogIn()
 QString Account::GetName()
 {
     return username;
+}
+
+void Account::AddProposalToUser(QString id)
+{
+    // there we add proposal id to user data
+    qDebug() << "id of proposal: " << id;
 }
 
 void Account::SetUserSettings()

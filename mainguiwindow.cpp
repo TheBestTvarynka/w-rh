@@ -9,7 +9,7 @@ MainGUIWindow::MainGUIWindow(QWidget *parent)
     ui->setupUi(this);
 
     user = new Account(Qt::Horizontal);
-    proposals = new ProposalsViewer;
+    proposals = new ProposalsViewer(user);
 
     content = new QWidget;
     content->setLayout(new QVBoxLayout);

@@ -24,8 +24,9 @@ public:
     Account(Qt::Orientation orientation);
     void ClearLayout(QLayout *);
     void LogIn();
-    QString GetName();
 public slots:
+    QString GetName();
+    void AddProposalToUser(QString);
     void SetUserSettings();
     void SetMakeProposal();
 };
