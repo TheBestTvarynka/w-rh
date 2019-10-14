@@ -8,10 +8,12 @@
 #include <QLineEdit>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QGridLayout>
 #include <QRegExp>
 #include <QMessageBox>
 
 #include "data/datamanager.h"
+#include "proposalitem.h"
 
 class Filter : public QWidget
 {
@@ -30,6 +32,9 @@ public slots:
     void EditPriceFrom(QString);
     void EditPriceTo(QString);
     void EditLocation(QString);
+    void FilterItems();
+signals:
+    void UpdateProposalTablet(QVector<QMap<QString, QVariant> >);
 };
 
 #endif // FILTER_H

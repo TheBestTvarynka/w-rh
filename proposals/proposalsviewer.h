@@ -18,10 +18,15 @@ class ProposalsViewer : public QWidget
     Q_OBJECT
     DataManager *data;
     QSplitter *main;
+    QGridLayout *tablet;
+    QWidget *blank;
     Account *user;
 public:
     ProposalsViewer(Account *);
     void SetMakeDialWindow(ProposalItem *);
+    void ClearLayout(QLayout *t);
+public slots:
+    void BuidProposalTablet(QVector<QMap<QString, QVariant> >);
 };
 
 #endif // PROPOSALSVIEWER_H

@@ -7,26 +7,17 @@ ProposalsViewer::ProposalsViewer(Account *p)
     user = p;
 
     data = new DataManager("proposals.json");
-    Filter *filter = new Filter(data);
 
-    int position = 0;
-    QGridLayout *layout = new QGridLayout;
-    ProposalItem *item;
-    DataManager::iterator it = data->begin();
-    while (it.hasNext())
-    {
-        item = new ProposalItem(this, it.value());
-        layout->addWidget(item, position / 2, position % 2);
-        position++;
-        it.next();
-    }
+    tablet = new QGridLayout;
+    tablet->setMargin(2);
 
-    layout->setMargin(2);
-
-    QWidget *blank = new QWidget;
-    blank->setLayout(layout);
+    blank = new QWidget;
+    blank->setLayout(tablet);
     blank->setStyleSheet("QWidget {"
                          "background: #89f0e9; }");
+
+    Filter *filter = new Filter(data);
+    connect(filter, SIGNAL(UpdateProposalTablet(QVector<QMap<QString, QVariant> >)), this, SLOT(BuidProposalTablet(QVector<QMap<QString, QVariant> >)));
 
     QScrollArea *content = new QScrollArea;
     content->setWidget(blank);
@@ -55,4 +46,30 @@ void ProposalsViewer::SetMakeDialWindow(ProposalItem *house)
     deal->exec();
 
     delete deal;
+}
+
+void ProposalsViewer::ClearLayout(QLayout *layout)
+{
+    if (!layout)
+        return;
+    while (auto item = layout->takeAt(0))
+    {
+        delete item->widget();
+        ClearLayout(item->layout());
+    }
+}
+
+void ProposalsViewer::BuidProposalTablet(QVector<QMap<QString, QVariant> > newProposals)
+{
+    QGridLayout *tablet = new QGridLayout;
+    ProposalItem *item;
+    for (int i = 0; i != newProposals.size(); i++)
+    {
+        item = new ProposalItem(this, newProposals[i]);
+        tablet->addWidget(item, i / 2, i % 2);
+    }
+    QWidget *blank = new QWidget;
+    blank->setLayout(tablet);
+    QScrollArea *scroll = (QScrollArea *)main->widget(1);
+    scroll->setWidget(blank);
 }

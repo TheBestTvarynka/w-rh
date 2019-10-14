@@ -1,4 +1,5 @@
 #include "filter.h"
+#include <QDebug>
 
 Filter::Filter(DataManager *ps)
 {
@@ -10,10 +11,10 @@ Filter::Filter(DataManager *ps)
     location = "";
 
     QLabel *roomsLabel = new QLabel("Number of rooms: ");
-    QLineEdit *roomsLeftEdit = new QLineEdit;
+    QLineEdit *roomsLeftEdit = new QLineEdit("0");
     connect(roomsLeftEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditRoomsFrom(QString)));
     QLabel *betweenRooms = new QLabel(" - ");
-    QLineEdit *roomsRightEdit = new QLineEdit;
+    QLineEdit *roomsRightEdit = new QLineEdit("5");
     connect(roomsRightEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditRoomsTo(QString)));
     QHBoxLayout *rangeRooms = new QHBoxLayout;
     rangeRooms->addWidget(roomsLeftEdit);
@@ -24,10 +25,10 @@ Filter::Filter(DataManager *ps)
     rooms->addLayout(rangeRooms);
 
     QLabel *priceLabel = new QLabel("Range of price: ");
-    QLineEdit *priceLeftEdit = new QLineEdit;
+    QLineEdit *priceLeftEdit = new QLineEdit("0");
     connect(priceLeftEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditPriceFrom(QString)));
     QLabel *betweenPrice = new QLabel(" - ");
-    QLineEdit *priceRightEdit = new QLineEdit;
+    QLineEdit *priceRightEdit = new QLineEdit("10000");
     connect(priceRightEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditPriceTo(QString)));
     QHBoxLayout *rangePrice = new QHBoxLayout;
     rangePrice->addWidget(priceLeftEdit);
@@ -38,13 +39,14 @@ Filter::Filter(DataManager *ps)
     price->addLayout(rangePrice);
 
     QLabel *locationLabel = new QLabel("Location:");
-    QLineEdit *locationEdit = new QLineEdit;
+    QLineEdit *locationEdit = new QLineEdit("Kyiv");
     connect(locationEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditLocation(QString)));
     QVBoxLayout *location = new QVBoxLayout;
     location->addWidget(locationLabel);
     location->addWidget(locationEdit);
 
     QPushButton *submit = new QPushButton("Filter");
+    connect(submit, SIGNAL(clicked()), this, SLOT(FilterItems()));
 
     QVBoxLayout *page = new QVBoxLayout;
     page->addWidget(h);
@@ -56,6 +58,7 @@ Filter::Filter(DataManager *ps)
     page->addItem(space);
 
     this->setLayout(page);
+    FilterItems();
 }
 
 void Filter::EditRoomsFrom(QString from)
@@ -97,4 +100,42 @@ void Filter::EditPriceTo(QString to)
 void Filter::EditLocation(QString newLocation)
 {
     location = newLocation;
+}
+
+void Filter::FilterItems()
+{
+    int number;
+    QVector<QMap<QString, QVariant> > filteredProposals;
+    DataManager::iterator it = proposals->begin();
+    while (it.hasNext())
+    {
+        it.value();
+        number = it.value()["Number of room"].toString().toInt();
+        qDebug() << number << roomsFrom << roomsTo;
+        if (number > roomsTo && number < roomsFrom)
+        {
+            qDebug() << "hide rooms";
+            it.next();
+            continue;
+        }
+        number = it.value()["Price"].toString().toInt();
+        qDebug() << number << priceFrom << priceTo;
+        if (number > priceTo && number < priceFrom)
+        {
+            qDebug() << "add price";
+            it.next();
+            continue;
+        }
+        if (location != it.value()["location"].toString())
+        {
+            qDebug() << "hide location";
+            it.next();
+            continue;
+        }
+        qDebug() << "add";
+        filteredProposals.append(it.value());
+        it.next();
+    }
+
+    emit UpdateProposalTablet(filteredProposals);
 }
