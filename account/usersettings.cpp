@@ -2,7 +2,7 @@
 
 UserSettings::UserSettings()
 {
-    setting = new UserDataLoader(account);
+    setting = new UserDataLoader("capmap"); // capmap = account
 
     QPushButton *Set = new QPushButton("Set");
     QPushButton *Return = new QPushButton("Return");
@@ -10,15 +10,15 @@ UserSettings::UserSettings()
     QObject::connect(Return, SIGNAL(clicked()), this, SLOT(Close()));
 
     QLabel *firstNameLabel = new QLabel("First name");
-    QLineEdit *firstNameEdit = new QLineEdit;
-    firstNameEdit->setText(setting->GetMap("Firstname").toString());
+    firstNameEdit = new QLineEdit;
+    firstNameEdit->setText(setting->GetVariant("First name").toString());
     QVBoxLayout *firstName = new QVBoxLayout;
     firstName->addWidget(firstNameLabel);
     firstName->addWidget(firstNameEdit);
 
     QLabel *secondNameLabel = new QLabel("Second name");
-    QLineEdit *secondNameEdit = new QLineEdit;
-    firstNameEdit->setText(setting->GetMap("Secondname").toString());
+    secondNameEdit = new QLineEdit;
+    secondNameEdit->setText(setting->GetVariant("Second name").toString());
     QVBoxLayout *secondName = new QVBoxLayout;
     secondName->addWidget(secondNameLabel);
     secondName->addWidget(secondNameEdit);
@@ -28,29 +28,29 @@ UserSettings::UserSettings()
     personName->addItem(secondName);
 
     QLabel *phoneLabel = new QLabel("Phone number");
-    QLineEdit *phoneEdit = new QLineEdit;
-    firstNameEdit->setText(setting->GetMap("Phonen number").toString());
+    phoneEdit = new QLineEdit;
+    phoneEdit->setText(setting->GetVariant("Phone number").toString());
     QVBoxLayout *phone = new QVBoxLayout;
     phone->addWidget(phoneLabel);
     phone->addWidget(phoneEdit);
 
     QLabel *locationLabel = new QLabel("Location");
-    QLineEdit *locationEdit = new QLineEdit;
-    firstNameEdit->setText(setting->GetMap("Location").toString());
+    locationEdit = new QLineEdit;
+    locationEdit->setText(setting->GetVariant("Location").toString());
     QVBoxLayout *location = new QVBoxLayout;
     location->addWidget(locationLabel);
     location->addWidget(locationEdit);
 
     QLabel *emailLabel = new QLabel("Email address");
-    QLineEdit *emailEdit = new QLineEdit;
-    firstNameEdit->setText(setting->GetMap("Email").toString());
+    emailEdit = new QLineEdit;
+    emailEdit->setText(setting->GetVariant("Email").toString());
     QVBoxLayout *email = new QVBoxLayout;
     email->addWidget(emailLabel);
     email->addWidget(emailEdit);
 
     QLabel *paymentLabel = new QLabel("Bank account");
-    QLineEdit *paymentEdit = new QLineEdit;
-    firstNameEdit->setText(setting->GetMap("Bank account").toString());
+    paymentEdit = new QLineEdit;
+    paymentEdit->setText(setting->GetVariant("Bank account").toString());
     QVBoxLayout *payment = new QVBoxLayout;
     payment->addWidget(paymentLabel);
     payment->addWidget(paymentEdit);
@@ -68,15 +68,15 @@ UserSettings::UserSettings()
 }
 
 void UserSettings::Set(){
-    (*setting->map)["Email"] = emailEdit->text();
-    (*setting->map)["SecondName"] = secondNameEdit->text();
-    (*setting->map)["FirstName"] = firstNameEdit->text();
-    (*setting->map)["PhoneNumber"] = phoneEdit->text();
-    (*setting->map)["Location"] = locationEdit->text();
-    (*setting->map)["BankAccount"] = paymentEdit->text();
+    setting->SetVariant("Email",emailEdit->text());
+    setting->SetVariant("Second name",secondNameEdit->text());
+    setting->SetVariant("First name",firstNameEdit->text());
+    setting->SetVariant("Phone number",phoneEdit->text());
+    setting->SetVariant("Location",locationEdit->text());
+    setting->SetVariant("Bank account",paymentEdit->text());
 }
 
 void UserSettings::Close(){
-    delete setting;
+    setting->WriteFile("capmap"); // capmap = account
     this->close();
 }

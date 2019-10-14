@@ -9,11 +9,13 @@
 
 class UserDataLoader
 {
+    QMap<QString,QVariant> *map;
 public:
     UserDataLoader(QString);
-    QVariant GetMap(QString);
+    QVariant GetVariant(QString);
+    void SetVariant(QString,QString);
+    void WriteFile(QString);
     ~UserDataLoader();
-    QMap<QString,QVariant> *map;
 };
 
 #endif // USERDATALOADER_H

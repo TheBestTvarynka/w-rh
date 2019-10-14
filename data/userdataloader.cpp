@@ -3,7 +3,7 @@
 UserDataLoader::UserDataLoader(QString account)
 {
     QString val;
-        QFile usersDB("userdata.json");
+        QFile usersDB("usersdata.json");
         usersDB.open(QIODevice::ReadOnly | QIODevice::Text);
         QString data = usersDB.readAll();
         usersDB.close();
@@ -19,11 +19,20 @@ UserDataLoader::UserDataLoader(QString account)
         }
 }
 
-QVariant UserDataLoader::GetMap(QString key){
+QVariant UserDataLoader::GetVariant(QString key){
     return map->find(key).value();
 }
 
-UserDataLoader::~UserDataLoader(){
+void UserDataLoader::SetVariant(QString key,QString value){
+    //map->erase(map->find(key));
+    (*this->map)[key] = value;
+}
+
+void UserDataLoader::WriteFile(QString account){
+    QFile usersDB("usersdata.json");
+    usersDB.open(QIODevice::ReadWrite | QIODevice::Text);
+    QString data = usersDB.readAll();
+    usersDB.close();
     QVariantMap vmap;
 
     QMapIterator<QString, QVariant> i(*map);
@@ -33,4 +42,16 @@ UserDataLoader::~UserDataLoader(){
     }
 
     QJsonDocument json = QJsonDocument::fromVariant(vmap);
+    QString strJson(json.toJson(QJsonDocument::Compact));
+    int comPos = data.indexOf(account + "\" : ");
+    int comEndPos = data.indexOf("}", comPos);
+    int odds = account.size() + 4;
+    data.remove(odds + comPos, comEndPos - comPos - odds + 1);
+    data.insert(odds + comPos, strJson);
+    usersDB.open(QIODevice::ReadWrite | QIODevice::Text | QIODevice::Truncate);
+    QTextStream writeStream(&usersDB);
+    writeStream << data;
+    usersDB.close();
 }
+
+UserDataLoader::~UserDataLoader(){}
