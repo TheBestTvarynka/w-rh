@@ -29,6 +29,7 @@ ProposalsViewer::ProposalsViewer(Account *p)
     QVBoxLayout *page = new QVBoxLayout;
     page->addWidget(main);
 
+    filter->FilterItems();
     this->setLayout(page);
 }
 
@@ -61,6 +62,7 @@ void ProposalsViewer::ClearLayout(QLayout *layout)
 
 void ProposalsViewer::BuidProposalTablet(QVector<QMap<QString, QVariant> > newProposals)
 {
+    qDebug() << "in viewer";
     QGridLayout *tablet = new QGridLayout;
     ProposalItem *item;
     for (int i = 0; i != newProposals.size(); i++)
