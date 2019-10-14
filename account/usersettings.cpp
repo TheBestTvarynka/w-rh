@@ -60,6 +60,7 @@ UserSettings::UserSettings(QMap<QString, QVariant> *data)
     }
 
     QPushButton *deleteDeal = new QPushButton("delete");
+    connect(deleteDeal, SIGNAL(clicked()), this, SLOT(RemoveDeal()));
     QVBoxLayout *deals = new QVBoxLayout;
     deals->addWidget(dealsLabel);
     deals->addWidget(listDeals);
@@ -85,4 +86,13 @@ void UserSettings::AddDeals(QString newDeal)
     deals.append(newDeal);
     (*userData)["deals"] = deals;
     listDeals->addItem(newDeal);
+}
+
+void UserSettings::RemoveDeal()
+{
+    QListWidgetItem *item = listDeals->selectedItems()[0];
+    QList<QVariant> deals = (*userData)["deals"].toList();
+    deals.removeOne(QVariant(item->text()));
+    (*userData)["deals"] = deals;
+    listDeals->takeItem(listDeals->currentRow());
 }

@@ -21,6 +21,8 @@ class UserSettings : public QWidget
 public:
     UserSettings(QMap<QString, QVariant> *);
     void AddDeals(QString);
+public slots:
+    void RemoveDeal();
 };
 
 #endif // USERSETTINGS_H
