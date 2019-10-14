@@ -14,7 +14,7 @@ ProposalsViewer::ProposalsViewer(Account *p)
     blank = new QWidget;
     blank->setLayout(tablet);
     blank->setStyleSheet("QWidget {"
-                         "background: #89f0e9; }");
+                         "background: #655b50; }");
 
     Filter *filter = new Filter(data);
 //    filter->setStyleSheet("QWidget {"
@@ -24,6 +24,17 @@ ProposalsViewer::ProposalsViewer(Account *p)
     connect(filter, SIGNAL(UpdateProposalTablet(QVector<QMap<QString, QVariant> >)), this, SLOT(BuidProposalTablet(QVector<QMap<QString, QVariant> >)));
 
     QScrollArea *content = new QScrollArea;
+    content->setStyleSheet("QScrollArea {"
+                           "background: #655b50;"
+                           "border-radius: 8px; }"
+                           "QScrollBar:vertical {"
+                           "background: #655b50;"
+                           "border-radius: 8px; }"
+                           "QScrollBar::handle{"
+                           "background: #2b241e; }"
+                           "QScrollBar:horizontal {"
+                           "background: #655b50;"
+                           "border-radius: 8px; }");
     content->setWidget(blank);
 
     main = new QSplitter;
@@ -84,6 +95,8 @@ void ProposalsViewer::BuidProposalTablet(QVector<QMap<QString, QVariant> > newPr
         tablet->addWidget(item, i / 2, i % 2);
     }
     QWidget *blank = new QWidget;
+    blank->setStyleSheet("QWidget {"
+                         "background: #655b50; }");
     blank->setLayout(tablet);
     QScrollArea *scroll = (QScrollArea *)main->widget(1);
     scroll->setWidget(blank);
