@@ -17,8 +17,10 @@ class UserSettings : public QWidget
 {
     Q_OBJECT
     QMap<QString, QVariant> *userData;
+    QListWidget *listDeals;
 public:
     UserSettings(QMap<QString, QVariant> *);
+    void AddDeals(QString);
 };
 
 #endif // USERSETTINGS_H

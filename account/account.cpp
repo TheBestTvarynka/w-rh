@@ -108,10 +108,12 @@ QString Account::GetName()
     return username;
 }
 
-void Account::AddProposalToUser(QString id)
+void Account::AddDealToUser(QString id)
 {
     // there we add proposal id to user data
     qDebug() << "id of proposal: " << id;
+    UserSettings *settings = (UserSettings *)content->layout()->takeAt(0)->widget();
+    settings->AddDeals(id);
 }
 
 void Account::SetUserSettings()

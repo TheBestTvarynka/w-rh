@@ -66,7 +66,7 @@ void ProposalsViewer::SetMakeDialWindow(ProposalItem *house)
             return;
     }
     DealHandler *deal = new DealHandler(this, house);
-    connect(deal, SIGNAL(AddToUser(QString)), user, SLOT(AddProposalToUser(QString)));
+    connect(deal, SIGNAL(AddToUser(QString)), user, SLOT(AddDealToUser(QString)));
     deal->setModal(true);
     deal->exec();
 

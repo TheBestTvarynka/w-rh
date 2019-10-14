@@ -1,4 +1,5 @@
 #include "usersettings.h"
+#include <QDebug>
 
 UserSettings::UserSettings(QMap<QString, QVariant> *data)
 {
@@ -45,7 +46,7 @@ UserSettings::UserSettings(QMap<QString, QVariant> *data)
     payment->addWidget(paymentEdit);
 
     QLabel *dealsLabel = new QLabel("Deals:");
-    QListWidget *listDeals = new QListWidget;
+    listDeals = new QListWidget;
     listDeals->setStyleSheet("QListWidget {"
                                  "background: #ffe7d0;"
                                  "border-radius: 4px; }"
@@ -55,7 +56,6 @@ UserSettings::UserSettings(QMap<QString, QVariant> *data)
     QListIterator<QVariant> it(userDials);
     while (it.hasNext())
     {
-//        it.next();
         listDeals->addItem(it.next().toString());
     }
 
@@ -77,4 +77,12 @@ UserSettings::UserSettings(QMap<QString, QVariant> *data)
     page->addItem(space);
 
     this->setLayout(page);
+}
+
+void UserSettings::AddDeals(QString newDeal)
+{
+    QList<QVariant> deals = (*userData)["deals"].toList();
+    deals.append(newDeal);
+    (*userData)["deals"] = deals;
+    listDeals->addItem(newDeal);
 }
