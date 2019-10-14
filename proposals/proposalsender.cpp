@@ -24,6 +24,11 @@ ProposalSender::ProposalSender()
 
     QLabel *photoLabel = new QLabel("Add photos");
     QListWidget *filesList = new QListWidget;
+    filesList->setStyleSheet("QListWidget {"
+                             "background: #ffe7d0;"
+                             "border-radius: 4px; }"
+                             "QListWidget::item:hover { background: #b88c53; }"
+                             "QListWidget::item:selected { background: #f095ee; }");
     QPushButton *deleteFile = new QPushButton("Delete file");
     QPushButton *addFile = new QPushButton("Add file");
     QHBoxLayout *manageFiles = new QHBoxLayout;

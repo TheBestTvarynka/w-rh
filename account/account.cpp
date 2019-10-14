@@ -4,6 +4,7 @@
 Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
 {
     username = "";
+    loader = nullptr;
     QPushButton *settings = new QPushButton("Accout settings");
     settings->setStyleSheet("QPushButton {"
                             "background: #ffe7d0;"
@@ -50,6 +51,21 @@ Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
     content = new QWidget(this);
     content->setLayout(new QVBoxLayout);
     SetUserSettings();
+
+    content->setStyleSheet("QWidget {"
+                            "background: #655b50;"
+                            "border-radius: 8px; }"
+                            "QLineEdit {"
+                            "background: #ffba00;"
+                            "border-radius: 4px; }"
+                           "QPushButton {"
+                           "background: #ffe7d0;"
+                           "color: #ffba00;"
+                           "border-radius: 4px;"
+                           "padding: 10px; }"
+                           "QPushButton::hover {"
+                           "background: #b88c53; }");
+
     this->addWidget(sideBar);
     this->addWidget(content);
     this->setStyleSheet("QSplitter {"
@@ -78,6 +94,10 @@ void Account::LogIn()
     AuthorizationHandler *login = new AuthorizationHandler;
     login->exec();
     username = login->GetUserName();
+    if (username != "")
+    {
+        loader = new UserDataLoader(username);
+    }
 }
 
 QString Account::GetName()
@@ -108,9 +128,18 @@ void Account::SetMakeProposal()
 
     QLabel *proposalsLabel = new QLabel("Your proposals");
     QListWidget *proposalsList = new QListWidget;
+    proposalsList->setStyleSheet("QListWidget {"
+                                 "background: #ffe7d0;"
+                                 "border-radius: 4px; }"
+                                 "QListWidget::item:hover { background: #b88c53; }"
+                                 "QListWidget::item:selected { background: #f095ee; }");
+    proposalsList->addItem("erferf");
+    proposalsList->addItem("ojoijijnvi");
+    QPushButton *deleteProposal = new QPushButton("delete");
     QVBoxLayout *proposals = new QVBoxLayout;
     proposals->addWidget(proposalsLabel);
     proposals->addWidget(proposalsList);
+    proposals->addWidget(deleteProposal);
 
     ProposalSender *sender = new ProposalSender;
     sender->SetOwner(username);

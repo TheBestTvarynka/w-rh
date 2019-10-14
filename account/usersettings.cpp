@@ -42,6 +42,19 @@ UserSettings::UserSettings()
     payment->addWidget(paymentLabel);
     payment->addWidget(paymentEdit);
 
+    QLabel *dealsLabel = new QLabel("Deals:");
+    QListWidget *listDeals = new QListWidget;
+    listDeals->setStyleSheet("QListWidget {"
+                                 "background: #ffe7d0;"
+                                 "border-radius: 4px; }"
+                                 "QListWidget::item:hover { background: #b88c53; }"
+                                 "QListWidget::item:selected { background: #f095ee; }");
+    QPushButton *deleteDeal = new QPushButton("delete");
+    QVBoxLayout *deals = new QVBoxLayout;
+    deals->addWidget(dealsLabel);
+    deals->addWidget(listDeals);
+    deals->addWidget(deleteDeal);
+
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
 
     QVBoxLayout *page = new QVBoxLayout;
@@ -50,6 +63,7 @@ UserSettings::UserSettings()
     page->addLayout(location);
     page->addLayout(email);
     page->addLayout(payment);
+    page->addLayout(deals);
     page->addItem(space);
 
     this->setLayout(page);

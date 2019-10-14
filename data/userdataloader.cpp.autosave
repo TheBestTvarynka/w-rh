@@ -12,7 +12,7 @@ UserDataLoader::UserDataLoader(QString name)
     QJsonDocument grid_json = QJsonDocument::fromJson(data.toUtf8());
     QJsonObject proposalsData = grid_json.object();
 
-    QJsonObject prop = proposalsData[account].toObject();
+    QJsonObject prop = proposalsData[user].toObject();
 
     map = new QMap<QString,QVariant>;
     for (QJsonObject::Iterator i = prop.begin(); i != prop.end(); i++)
