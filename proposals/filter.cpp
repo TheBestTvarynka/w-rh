@@ -73,7 +73,9 @@ Filter::Filter(DataManager *ps)
                           "padding-right: 10px;"
                           "padding-left: 10px;"
                           "padding-top: 5px;"
-                          "padding-bottom: 5px; }");
+                          "padding-bottom: 5px; }"
+                          "QPushButton::hover {"
+                          "background: #b88c53; }");
     connect(submit, SIGNAL(clicked()), this, SLOT(FilterItems()));
 
     QVBoxLayout *page = new QVBoxLayout;

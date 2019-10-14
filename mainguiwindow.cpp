@@ -41,7 +41,9 @@ QWidget *MainGUIWindow::SetTopPanel()
                            "color: #ffba00;"
                            "border-radius: 4px;"
                            "padding-right: 15px;"
-                           "padding-left: 15px; }");
+                           "padding-left: 15px; }"
+                           "QPushButton::hover {"
+                           "background: #b88c53; }");
     profile->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
     QObject::connect(profile, SIGNAL(clicked()), this, SLOT(LoadProfile()));
 
