@@ -32,3 +32,4 @@ public slots:
 };
 
 #endif // PROPOSALSVIEWER_H
+
