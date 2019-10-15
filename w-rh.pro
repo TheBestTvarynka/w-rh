@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     account/account.cpp \
     account/authorizationhandler.cpp \
+    account/meneger.cpp \
     account/usersettings.cpp \
     bank/bank.cpp \
     bank/dealhandler.cpp \
@@ -33,6 +34,7 @@ SOURCES += \
 HEADERS += \
     account/account.h \
     account/authorizationhandler.h \
+    account/meneger.h \
     account/usersettings.h \
     bank/bank.h \
     bank/dealhandler.h \

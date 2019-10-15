@@ -13,6 +13,7 @@
 #include "../proposals/proposalsender.h"
 #include "../data/userdataloader.h"
 #include "usersettings.h"
+#include "meneger.h"
 
 class MainGUIWindow;
 
@@ -23,6 +24,7 @@ class Account : public QSplitter
     MainGUIWindow *Parent;
     QWidget *content;
     QString username;
+    QPushButton *manager;
 public:
     Account(MainGUIWindow *, Qt::Orientation orientation);
     void ClearLayout(QLayout *);
@@ -32,6 +34,7 @@ public slots:
     QString GetName();
     void AddDealToUser(QString);
     void SetUserSettings();
+    void Setmanager();
     void SetMakeProposal();
     void DeleteProposal();
 };

@@ -36,6 +36,12 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
         }
     }
 
+    QLabel *datetime = new QLabel("Choose a date and time:");
+    datetimeEdit = new QDateTimeEdit;
+    QVBoxLayout *datetimeL = new QVBoxLayout;
+    datetimeL->addWidget(datetime);
+    datetimeL->addWidget(datetimeEdit);
+
     title = new QLabel("Enter your bank account: ");
     bankAccount = new QLineEdit;
     bankAccount->setStyleSheet("QLineEdit {"
@@ -51,6 +57,7 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
     connect(submit, SIGNAL(clicked()), this, SLOT(MakeDial()));
 
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
+    page->addLayout(datetimeL);
     page->addLayout(bank);
     page->addWidget(submit);
     page->addItem(space);
@@ -66,6 +73,11 @@ void DealHandler::SetBankAccountNumber(QString newBankAccountNumber)
 void DealHandler::MakeDial()
 {
     Bank *bank = new Bank("bankusers.json");
+
+    QFile dates("dates");
+    dates.open(QIODevice::Append | QIODevice::Text);
+    QString date = (datetimeEdit->text() + item->GetProposalDetails("location").toString());
+    dates.write(date.toUtf8());
 
     emit AddToUser(item->GetProposalDetails("id").toString());
     this->close();

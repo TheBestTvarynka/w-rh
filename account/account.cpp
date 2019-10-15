@@ -27,7 +27,16 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
                             "padding: 10px; }"
                             "QPushButton::hover {"
                             "background: #b88c53; }");
-    connect(makeProposal, SIGNAL(clicked()), this, SLOT(SetMakeProposal()));
+    manager = new QPushButton("manager");
+    manager->setStyleSheet("QPushButton {"
+                            "background: #ffe7d0;"
+                            "color: #ffba00;"
+                            "border-radius: 0px;"
+                            "padding: 10px; }"
+                            "QPushButton::hover {"
+                            "background: #b88c53; }");
+    connect(manager, SIGNAL(clicked()), this, SLOT(Setmanager()));
+    manager->hide();
     QPushButton *logOut = new QPushButton("Log out");
     logOut->setStyleSheet("QPushButton {"
                             "background: #ffe7d0;"
@@ -41,6 +50,7 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
     QVBoxLayout *sideBarLayout = new QVBoxLayout;
     sideBarLayout->addWidget(settings);
     sideBarLayout->addWidget(makeProposal);
+    sideBarLayout->addWidget(manager);
     sideBarLayout->addWidget(logOut);
     sideBarLayout->addItem(space);
     sideBarLayout->setMargin(0);
@@ -101,7 +111,13 @@ void Account::LogIn()
     if (username != "")
     {
         loader->ReadUserData(username);
+        qDebug() << username.indexOf("manager");
         SetUserSettings();
+        if (username.indexOf("manager") != -1)
+        {
+            manager->show();
+            return;
+        }
     }
 }
 
@@ -138,6 +154,14 @@ void Account::SetUserSettings()
         settings->setLayout(new QHBoxLayout);
     }
     page->addWidget(settings);
+}
+
+void Account::Setmanager()
+{
+    QVBoxLayout *page = (QVBoxLayout *)(content->layout());
+    ClearLayout(page);
+    QWidget *manager = new Meneger;
+    page->addWidget(manager);
 }
 
 void Account::SetMakeProposal()

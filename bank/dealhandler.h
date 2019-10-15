@@ -6,8 +6,10 @@
 #include <QVector>
 #include <QLabel>
 #include <QLineEdit>
+#include <QFile>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QDateTimeEdit>
 
 #include "../proposals/proposalitem.h"
 #include "bank.h"
@@ -18,6 +20,7 @@ class DealHandler : public QDialog
     ProposalItem *item;
     QString bancAccountNumber;
     QLineEdit *bankAccount;
+    QDateTimeEdit *datetimeEdit;
 public:
     DealHandler(QWidget *, ProposalItem *);
 public slots:
