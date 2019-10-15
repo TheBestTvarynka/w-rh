@@ -26,6 +26,7 @@ class Filter : public QWidget
     QString location;
 public:
     Filter(DataManager *);
+    void SetDataManaer(DataManager *newData);
 public slots:
     void EditRoomsFrom(QString);
     void EditRoomsTo(QString);

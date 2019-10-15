@@ -1,4 +1,5 @@
 #include "proposalsender.h"
+#include <QDebug>
 
 ProposalSender::ProposalSender()
 {
@@ -61,13 +62,13 @@ ProposalSender::ProposalSender()
     QSpacerItem *leftSpace = new QSpacerItem(40, 60, QSizePolicy::Expanding, QSizePolicy::Preferred);
     QSpacerItem *rightSpace = new QSpacerItem(40, 60, QSizePolicy::Expanding, QSizePolicy::Preferred);
     QPushButton *makeProposal = new QPushButton("add proposal");
+    connect(makeProposal, SIGNAL(clicked()), this, SLOT(SendProposal()));
     QHBoxLayout *make = new QHBoxLayout;
     make->addItem(leftSpace);
     make->addWidget(makeProposal);
     make->addItem(rightSpace);
 
     QVBoxLayout *page = new QVBoxLayout;
-//    QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
     page->addWidget(addProposalLabel);
     page->addLayout(address);
     page->addLayout(room);
@@ -75,7 +76,6 @@ ProposalSender::ProposalSender()
     page->addLayout(bank);
     page->addLayout(price);
     page->addLayout(make);
-//    page->addItem(space);
 
     this->setLayout(page);
 }
@@ -116,4 +116,22 @@ void ProposalSender::AddPhoto()
 void ProposalSender::DeletePhoto()
 {
     filesList->takeItem(filesList->currentRow());
+}
+
+void ProposalSender::SendProposal()
+{
+    qDebug() << "send proposal";
+    QMap<QString, QVariant> newProposal;
+    newProposal.insert("owner", nameOwner);
+    newProposal.insert("location", location);
+    newProposal.insert("Number of room", roomNumber);
+    newProposal.insert("Price", price);
+    QList<QVariant> photos;
+    for (int i = 0; i < filesList->count(); i++)
+    {
+        photos.append(filesList->item(i)->text());
+    }
+    newProposal.insert("photos", photos);
+
+    emit UpdateProposals();
 }

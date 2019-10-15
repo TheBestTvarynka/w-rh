@@ -16,7 +16,7 @@ ProposalsViewer::ProposalsViewer(Account *p)
     blank->setStyleSheet("QWidget {"
                          "background: #655b50; }");
 
-    Filter *filter = new Filter(data);
+    filter = new Filter(data);
 //    filter->setStyleSheet("QWidget {"
 //                            "background: #655b50;"
 //                            "border: 1px solid #655b50;"
@@ -100,4 +100,12 @@ void ProposalsViewer::BuidProposalTablet(QVector<QMap<QString, QVariant> > newPr
     blank->setLayout(tablet);
     QScrollArea *scroll = (QScrollArea *)main->widget(1);
     scroll->setWidget(blank);
+}
+
+void ProposalsViewer::UpdateProposal()
+{
+    qDebug() << "update proposal";
+    delete data;
+    data = new DataManager("proposals.json");
+    filter->SetDataManaer(data);
 }

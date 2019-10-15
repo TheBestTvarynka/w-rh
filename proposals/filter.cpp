@@ -92,6 +92,12 @@ Filter::Filter(DataManager *ps)
                         "background: #ffba00; }");
 }
 
+void Filter::SetDataManaer(DataManager *newData)
+{
+    proposals = newData;
+    FilterItems();
+}
+
 void Filter::EditRoomsFrom(QString from)
 {
     QRegExp re("\\d*");  // a digit (\d), zero or more times (*)

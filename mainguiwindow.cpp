@@ -8,7 +8,7 @@ MainGUIWindow::MainGUIWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    user = new Account(Qt::Horizontal);
+    user = new Account(this, Qt::Horizontal);
     proposals = new ProposalsViewer(user);
 
     content = new QWidget;

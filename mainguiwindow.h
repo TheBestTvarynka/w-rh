@@ -17,12 +17,13 @@ class MainGUIWindow : public QMainWindow
     Q_OBJECT
     QWidget *content;
     Account *user;
-    QWidget *proposals;
+    ProposalsViewer *proposals;
 public:
     MainGUIWindow(QWidget *parent = nullptr);
     ~MainGUIWindow();
     QWidget *SetTopPanel();
     Account *GetAccount() { return user; }
+    ProposalsViewer *GetViewer() { return proposals; }
 private:
     Ui::MainGUIWindow *ui;
 public slots:

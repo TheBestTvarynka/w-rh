@@ -29,6 +29,9 @@ public slots:
     void EditedPrice(QString);
     void AddPhoto();
     void DeletePhoto();
+    void SendProposal();
+signals:
+    void UpdateProposals();
 };
 
 #endif // PROPOSALSENDER_H

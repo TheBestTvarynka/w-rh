@@ -14,14 +14,17 @@
 #include "../data/userdataloader.h"
 #include "usersettings.h"
 
+class MainGUIWindow;
+
 class Account : public QSplitter
 {
     Q_OBJECT
     UserDataLoader *loader;
+    MainGUIWindow *Parent;
     QWidget *content;
     QString username;
 public:
-    Account(Qt::Orientation orientation);
+    Account(MainGUIWindow *, Qt::Orientation orientation);
     void ClearLayout(QLayout *);
     void LogIn();
     void WriteSettings(QMap<QString, QVariant>);

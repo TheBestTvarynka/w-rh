@@ -21,6 +21,7 @@ public:
     DataManager(QString);
     QMap<QString, QVariant> ConvertJsonValueToProposal(QJsonValue);
     QList<QVariant> ConvertJsonArrayToList(QJsonArray);
+    void AddProposal(QMap<QString, QVariant>);
     class iterator : public std::iterator<
             std::input_iterator_tag,
             QMap<QString, QVariant>,

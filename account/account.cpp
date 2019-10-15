@@ -1,8 +1,10 @@
 #include "account.h"
+#include "mainguiwindow.h"
 #include <QDebug>
 
-Account::Account(Qt::Orientation orientation) : QSplitter(orientation)
+Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orientation)
 {
+    Parent = p;
     username = "";
     loader = nullptr;
     loader = new UserDataLoader();
@@ -159,6 +161,7 @@ void Account::SetMakeProposal()
     proposals->addWidget(deleteProposal);
 
     ProposalSender *sender = new ProposalSender;
+    connect(sender, SIGNAL(UpdateProposals()), Parent->GetViewer(), SLOT(UpdateProposal()));
     sender->SetOwner(username);
 
     page->addLayout(proposals);
