@@ -14,6 +14,8 @@ Filter::Filter(DataManager *ps)
 
     QLabel *roomsLabel = new QLabel("Number of rooms: ");
     QLineEdit *roomsLeftEdit = new QLineEdit("0");
+//    roomsLeftEdit->setStyleSheet("QLineEdit {"
+//                                 "background}");
     connect(roomsLeftEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditRoomsFrom(QString)));
     QLabel *betweenRooms = new QLabel(" - ");
     QLineEdit *roomsRightEdit = new QLineEdit("5");
@@ -25,6 +27,11 @@ Filter::Filter(DataManager *ps)
     QVBoxLayout *rooms = new QVBoxLayout;
     rooms->addWidget(roomsLabel);
     rooms->addLayout(rangeRooms);
+    QWidget *roomsWidget = new QWidget;
+    roomsWidget->setLayout(rooms);
+    roomsWidget->setStyleSheet(".QWidget {"
+                               "background: #ffe7d0;"
+                               "border-radius: 4px; }");
 
     QLabel *priceLabel = new QLabel("Range of price: ");
     QLineEdit *priceLeftEdit = new QLineEdit("0");
@@ -39,6 +46,11 @@ Filter::Filter(DataManager *ps)
     QVBoxLayout *price = new QVBoxLayout;
     price->addWidget(priceLabel);
     price->addLayout(rangePrice);
+    QWidget *priceWidget = new QWidget;
+    priceWidget->setLayout(price);
+    priceWidget->setStyleSheet(".QWidget {"
+                               "background: #ffe7d0;"
+                               "border-radius: 4px; }");
 
     QLabel *locationLabel = new QLabel("Location:");
     QLineEdit *locationEdit = new QLineEdit("Kyiv");
@@ -46,20 +58,44 @@ Filter::Filter(DataManager *ps)
     QVBoxLayout *location = new QVBoxLayout;
     location->addWidget(locationLabel);
     location->addWidget(locationEdit);
+    QWidget *locationWidget = new QWidget;
+    locationWidget->setLayout(location);
+    locationWidget->setStyleSheet(".QWidget {"
+                                  "background: #ffe7d0;"
+                                  "border-radius: 4px; }");
 
     QPushButton *submit = new QPushButton("Filter");
+    submit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    submit->setStyleSheet("QPushButton {"
+                          "background: #ffe7d0;"
+                          "color: #ffba00;"
+                          "border-radius: 4px;"
+                          "padding-right: 10px;"
+                          "padding-left: 10px;"
+                          "padding-top: 5px;"
+                          "padding-bottom: 5px; }"
+                          "QPushButton::hover {"
+                          "background: #b88c53; }");
     connect(submit, SIGNAL(clicked()), this, SLOT(FilterItems()));
 
     QVBoxLayout *page = new QVBoxLayout;
     page->addWidget(h);
-    page->addLayout(rooms);
-    page->addLayout(price);
-    page->addLayout(location);
+    page->addWidget(roomsWidget);
+    page->addWidget(priceWidget);
+    page->addWidget(locationWidget);
     page->addWidget(submit);
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
     page->addItem(space);
 
     this->setLayout(page);
+    this->setStyleSheet("QLineEdit {"
+                        "background: #ffba00; }");
+}
+
+void Filter::SetDataManaer(DataManager *newData)
+{
+    proposals = newData;
+    FilterItems();
 }
 
 void Filter::EditRoomsFrom(QString from)

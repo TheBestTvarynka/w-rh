@@ -17,6 +17,7 @@ class ProposalsViewer : public QWidget
 {
     Q_OBJECT
     DataManager *data;
+    Filter *filter;
     QSplitter *main;
     QGridLayout *tablet;
     QWidget *blank;
@@ -27,6 +28,7 @@ public:
     void ClearLayout(QLayout *t);
 public slots:
     void BuidProposalTablet(QVector<QMap<QString, QVariant> >);
+    void UpdateProposal();
 };
 
 #endif // PROPOSALSVIEWER_H

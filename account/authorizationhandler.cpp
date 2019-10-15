@@ -10,29 +10,50 @@ AuthorizationHandler::AuthorizationHandler()
     QLabel *nameLabel = new QLabel("Login:");
     nameEdit = new QLineEdit;
 
-    QHBoxLayout *nameLayout = new QHBoxLayout;
+    QVBoxLayout *nameLayout = new QVBoxLayout;
     nameLayout->addWidget(nameLabel);
     nameLayout->addWidget(nameEdit);
 
     QLabel *passLabel = new QLabel("Password:");
     passEdit = new QLineEdit;
 
-    QHBoxLayout *passLayout = new QHBoxLayout;
+    QVBoxLayout *passLayout = new QVBoxLayout;
     passLayout->addWidget(passLabel);
     passLayout->addWidget(passEdit);
 
     QPushButton *submit = new QPushButton("OK");
+    submit->setStyleSheet("QPushButton {"
+                           "background: #ffe7d0;"
+                           "color: #ffba00;"
+                           "border-radius: 4px;"
+                           "padding: 5px; }");
     QPushButton *cancel = new QPushButton("Cancel");
+    cancel->setStyleSheet("QPushButton {"
+                           "background: #ffe7d0;"
+                           "color: #ffba00;"
+                           "border-radius: 4px;"
+                           "padding: 5px; }");
     connect(submit, SIGNAL(clicked()), this, SLOT(LogIn()));
     connect(cancel, SIGNAL(clicked()), this, SLOT(close()));
 
+    QSpacerItem *space_up = new QSpacerItem(50, 50, QSizePolicy::Preferred, QSizePolicy::Expanding);
+    QSpacerItem *space_down = new QSpacerItem(50, 50, QSizePolicy::Preferred, QSizePolicy::Expanding);
     QVBoxLayout *main = new QVBoxLayout;
+    main->addItem(space_up);
     main->addItem(nameLayout);
     main->addItem(passLayout);
     main->addWidget(submit);
     main->addWidget(cancel);
+    main->addItem(space_down);
 
     this->setLayout(main);
+    this->setFixedSize(300, 400);
+    this->setStyleSheet("QWidget {"
+                        "background: #655b50; }"
+                        "QLineEdit {"
+                        "background: #ffba00; }"
+                        "QLabel {"
+                        "background: transparent; }");
 }
 
 void AuthorizationHandler::LogIn()
