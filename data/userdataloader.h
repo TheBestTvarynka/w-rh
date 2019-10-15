@@ -3,6 +3,7 @@
 
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QVariantMap>
 #include <QFile>
 #include <QMap>
 #include <QString>
