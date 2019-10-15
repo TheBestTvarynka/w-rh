@@ -42,5 +42,5 @@ void UserDataLoader::ReadUserData(QString user)
 
 void UserDataLoader::WriteSettings(QMap<QString, QVariant>)
 {
-
+    qDebug() << "write settings";
 }

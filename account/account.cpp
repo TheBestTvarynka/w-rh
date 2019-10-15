@@ -103,6 +103,11 @@ void Account::LogIn()
     }
 }
 
+void Account::WriteSettings(QMap<QString, QVariant> newSettings)
+{
+    loader->WriteSettings(newSettings);
+}
+
 QString Account::GetName()
 {
     return username;
@@ -123,7 +128,7 @@ void Account::SetUserSettings()
 
     QWidget *settings;
     if (username != "")
-        settings = new UserSettings(loader->GetUserData());
+        settings = new UserSettings(this, *loader->GetUserData());
     else
         settings = new QWidget;
     page->addWidget(settings);

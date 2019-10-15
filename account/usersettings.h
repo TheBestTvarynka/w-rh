@@ -13,16 +13,20 @@
 #include <QList>
 #include <QListIterator>
 
+class Account;
+
 class UserSettings : public QWidget
 {
     Q_OBJECT
-    QMap<QString, QVariant> *userData;
+    QMap<QString, QVariant> userData;
     QListWidget *listDeals;
+    Account *Parent;
 public:
-    UserSettings(QMap<QString, QVariant> *);
+    UserSettings(Account *, QMap<QString, QVariant>);
     void AddDeals(QString);
 public slots:
     void RemoveDeal();
+    void SaveSettings();
     void EditedFirstName(QString);
     void EditedSeconsName(QString);
     void EditedEmail(QString);

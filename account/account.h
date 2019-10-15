@@ -24,6 +24,7 @@ public:
     Account(Qt::Orientation orientation);
     void ClearLayout(QLayout *);
     void LogIn();
+    void WriteSettings(QMap<QString, QVariant>);
 public slots:
     QString GetName();
     void AddDealToUser(QString);
