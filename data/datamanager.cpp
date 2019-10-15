@@ -1,18 +1,19 @@
 #include "datamanager.h"
 #include <QDebug>
+
 DataManager::DataManager(QString path)
 {
     PATH = path;
 
-    QFile usersDB("proposals.json");
-    usersDB.open(QIODevice::ReadOnly | QIODevice::Text);
-    if (!usersDB.isOpen())
+    QFile proposalsDB("proposals.json");
+    proposalsDB.open(QIODevice::ReadOnly | QIODevice::Text);
+    if (!proposalsDB.isOpen())
     {
         qDebug() << "no proposals file";
         return;
     }
-    QString data = usersDB.readAll();
-    usersDB.close();
+    QString data = proposalsDB.readAll();
+    proposalsDB.close();
     QJsonDocument grid_json = QJsonDocument::fromJson(data.toUtf8());
     QJsonObject proposalsData = grid_json.object();
 
@@ -50,5 +51,43 @@ QList<QVariant> DataManager::ConvertJsonArrayToList(QJsonArray array)
         result.push_back(i->toString());
     }
     return result;
+}
+
+QJsonObject DataManager::ConvertMapToJsonObject(QMap<QString, QVariant> map)
+{
+    QJsonObject object;
+    QMapIterator<QString, QVariant> it(map);
+    while (it.hasNext())
+    {
+        it.next();
+        object.insert(it.key(), it.value().toJsonValue());
+    }
+    return object;
+}
+
+void DataManager::AddProposal(QMap<QString, QVariant> newProposal)
+{
+    proposals.push_back(newProposal);
+    WriteProposals();
+}
+
+void DataManager::WriteProposals()
+{
+    QJsonObject newProposals;
+    QMap<QString, QVariant> currentProposal;
+    for (int i = 0; i < proposals.size(); i++)
+    {
+        currentProposal = proposals[i];
+        newProposals.insert(QString::number(i + 1), ConvertMapToJsonObject(currentProposal));
+    }
+    QFile proposalsDB("proposals.json");
+    proposalsDB.open(QIODevice::WriteOnly | QIODevice::Text);
+    if (!proposalsDB.isOpen())
+    {
+        qDebug() << "no proposals file";
+        return;
+    }
+    proposalsDB.write(QJsonDocument(newProposals).toJson());
+    proposalsDB.close();
 }
 

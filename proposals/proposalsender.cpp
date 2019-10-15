@@ -133,5 +133,9 @@ void ProposalSender::SendProposal()
     }
     newProposal.insert("photos", photos);
 
+    DataManager *proposals = new DataManager("proposals.json");
+    proposals->AddProposal(newProposal);
+    delete  proposals;
+
     emit UpdateProposals();
 }

@@ -10,6 +10,8 @@
 #include <QVBoxLayout>
 #include <QString>
 
+#include "data/datamanager.h"
+
 class ProposalSender : public QWidget
 {
     Q_OBJECT
