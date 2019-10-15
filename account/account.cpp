@@ -117,6 +117,7 @@ void Account::AddDealToUser(QString id)
 {
     // there we add proposal id to user data
     qDebug() << "id of proposal: " << id;
+    SetUserSettings();
     UserSettings *settings = (UserSettings *)content->layout()->takeAt(0)->widget();
     settings->AddDeals(id);
 }
