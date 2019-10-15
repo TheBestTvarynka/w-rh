@@ -30,6 +30,7 @@ public slots:
     void AddDealToUser(QString);
     void SetUserSettings();
     void SetMakeProposal();
+    void DeleteProposal();
 };
 
 #endif // ACCOUNT_H

@@ -23,7 +23,7 @@ class UserSettings : public QWidget
     Account *Parent;
 public:
     UserSettings(Account *, QMap<QString, QVariant>);
-    void AddDeals(QString);
+    void AddDeal(QString);
 public slots:
     void RemoveDeal();
     void SaveSettings();

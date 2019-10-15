@@ -119,7 +119,7 @@ void Account::AddDealToUser(QString id)
     qDebug() << "id of proposal: " << id;
     SetUserSettings();
     UserSettings *settings = (UserSettings *)content->layout()->takeAt(0)->widget();
-    settings->AddDeals(id);
+    settings->AddDeal(id);
 }
 
 void Account::SetUserSettings()
@@ -131,7 +131,10 @@ void Account::SetUserSettings()
     if (username != "")
         settings = new UserSettings(this, *loader->GetUserData());
     else
+    {
         settings = new QWidget;
+        settings->setLayout(new QHBoxLayout);
+    }
     page->addWidget(settings);
 }
 
@@ -160,4 +163,9 @@ void Account::SetMakeProposal()
 
     page->addLayout(proposals);
     page->addWidget(sender);
+}
+
+void Account::DeleteProposal()
+{
+
 }

@@ -96,7 +96,7 @@ UserSettings::UserSettings(Account *p, QMap<QString, QVariant> data)
     this->setLayout(page);
 }
 
-void UserSettings::AddDeals(QString newDeal)
+void UserSettings::AddDeal(QString newDeal)
 {
     QList<QVariant> deals = userData["deals"].toList();
     deals.append(newDeal);

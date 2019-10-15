@@ -2,35 +2,40 @@
 
 ProposalSender::ProposalSender()
 {
-    name = "";
     roomNumber = "";
     price = "";
     location = "";
     nameOwner = "";
+    bankAccount = "";
 
     QLabel *addProposalLabel = new QLabel("Add new proposal");
 
     QLabel *addressLabel = new QLabel("Address of house");
     QLineEdit *addressEdit = new QLineEdit;
+    connect(addressEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditedLocation(QString)));
     QVBoxLayout *address = new QVBoxLayout;
     address->addWidget(addressLabel);
     address->addWidget(addressEdit);
 
     QLabel *roomLabel = new QLabel("Number of rooms");
     QLineEdit *roomEdit = new QLineEdit;
+    connect(roomEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditedNumberRooms(QString)));
     QVBoxLayout *room = new QVBoxLayout;
     room->addWidget(roomLabel);
     room->addWidget(roomEdit);
 
     QLabel *photoLabel = new QLabel("Add photos");
-    QListWidget *filesList = new QListWidget;
+    filesList = new QListWidget;
     filesList->setStyleSheet("QListWidget {"
                              "background: #ffe7d0;"
                              "border-radius: 4px; }"
                              "QListWidget::item:hover { background: #b88c53; }"
                              "QListWidget::item:selected { background: #f095ee; }");
+    filesList->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
     QPushButton *deleteFile = new QPushButton("Delete file");
+    connect(deleteFile, SIGNAL(clicked()), this, SLOT(DeletePhoto()));
     QPushButton *addFile = new QPushButton("Add file");
+    connect(addFile, SIGNAL(clicked()), this, SLOT(AddPhoto()));
     QHBoxLayout *manageFiles = new QHBoxLayout;
     manageFiles->addWidget(deleteFile);
     manageFiles->addWidget(addFile);
@@ -41,12 +46,14 @@ ProposalSender::ProposalSender()
 
     QLabel *bankLabel = new QLabel("Bank account");
     QLineEdit *bankEdit = new QLineEdit;
+    connect(bankEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditedBankAccount(QString)));
     QVBoxLayout *bank = new QVBoxLayout;
     bank->addWidget(bankLabel);
     bank->addWidget(bankEdit);
 
     QLabel *priceLabel = new QLabel("Price per month:");
     QLineEdit *priceEdit = new QLineEdit;
+    connect(priceEdit, SIGNAL(textEdited(const QString &)), this, SLOT(EditedPrice(QString)));
     QVBoxLayout *price = new QVBoxLayout;
     price->addWidget(priceLabel);
     price->addWidget(priceEdit);
@@ -60,7 +67,7 @@ ProposalSender::ProposalSender()
     make->addItem(rightSpace);
 
     QVBoxLayout *page = new QVBoxLayout;
-    QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
+//    QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
     page->addWidget(addProposalLabel);
     page->addLayout(address);
     page->addLayout(room);
@@ -68,7 +75,7 @@ ProposalSender::ProposalSender()
     page->addLayout(bank);
     page->addLayout(price);
     page->addLayout(make);
-    page->addItem(space);
+//    page->addItem(space);
 
     this->setLayout(page);
 }
@@ -76,4 +83,37 @@ ProposalSender::ProposalSender()
 void ProposalSender::SetOwner(QString name)
 {
     nameOwner = name;
+}
+
+void ProposalSender::EditedLocation(QString newLocation)
+{
+    location = newLocation;
+}
+
+void ProposalSender::EditedNumberRooms(QString newNumberRooms)
+{
+    roomNumber = newNumberRooms;
+}
+
+void ProposalSender::EditedBankAccount(QString newBankAccount)
+{
+    bankAccount = newBankAccount;
+}
+
+void ProposalSender::EditedPrice(QString newPrice)
+{
+    price = newPrice;
+}
+
+void ProposalSender::AddPhoto()
+{
+    QString file = QFileDialog::getOpenFileName(this);
+    if (file == "")
+        return;
+    filesList->addItem(file);
+}
+
+void ProposalSender::DeletePhoto()
+{
+    filesList->takeItem(filesList->currentRow());
 }
