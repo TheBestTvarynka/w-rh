@@ -38,6 +38,10 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
 
     title = new QLabel("Enter your bank account: ");
     bankAccount = new QLineEdit;
+    bankAccount->setStyleSheet("QLineEdit {"
+                               "background: #ffba00;"
+                               "margin-top: 3px;"
+                               "margin-bottom: 3px; }");
     connect(bankAccount, SIGNAL(textEdited(const QString &)), this, SLOT(SetBankAccountNumber(QString)));
     QVBoxLayout *bank = new QVBoxLayout;
     bank->addWidget(title);
@@ -51,6 +55,7 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
     page->addWidget(submit);
     page->addItem(space);
     this->setLayout(page);
+    this->setStyleSheet("background: #655b50;");
 }
 
 void DealHandler::SetBankAccountNumber(QString newBankAccountNumber)

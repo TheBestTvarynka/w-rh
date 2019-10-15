@@ -51,7 +51,13 @@ ProposalSender::ProposalSender()
     price->addWidget(priceLabel);
     price->addWidget(priceEdit);
 
+    QSpacerItem *leftSpace = new QSpacerItem(40, 60, QSizePolicy::Expanding, QSizePolicy::Preferred);
+    QSpacerItem *rightSpace = new QSpacerItem(40, 60, QSizePolicy::Expanding, QSizePolicy::Preferred);
     QPushButton *makeProposal = new QPushButton("add proposal");
+    QHBoxLayout *make = new QHBoxLayout;
+    make->addItem(leftSpace);
+    make->addWidget(makeProposal);
+    make->addItem(rightSpace);
 
     QVBoxLayout *page = new QVBoxLayout;
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
@@ -61,7 +67,7 @@ ProposalSender::ProposalSender()
     page->addLayout(files);
     page->addLayout(bank);
     page->addLayout(price);
-    page->addWidget(makeProposal);
+    page->addLayout(make);
     page->addItem(space);
 
     this->setLayout(page);
