@@ -19,6 +19,8 @@ public:
     manager(QString);
     void ReadSchedule();
     void WriteSchedule();
+public slots:
+    void Visited();
 };
 
 #endif // MANAGER_H

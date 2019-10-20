@@ -6,7 +6,10 @@ manager::manager(QString name) : QWidget(nullptr)
     managerName = name;
     QLabel *meetingsLabel = new QLabel("Next meetings:");
     meetingsList = new QListWidget;
+
     QPushButton *visited = new QPushButton("visited");
+    connect(visited, SIGNAL(clicked()), this, SLOT(Visited()));
+
     QVBoxLayout *page = new QVBoxLayout;
     page->addWidget(meetingsLabel);
     page->addWidget(meetingsList);
@@ -68,4 +71,9 @@ void manager::WriteSchedule()
     }
     managersWrite.write(QJsonDocument(schedules).toJson());
     managersWrite.close();
+}
+
+void manager::Visited()
+{
+    meetingsList->takeItem(meetingsList->currentRow());
 }
