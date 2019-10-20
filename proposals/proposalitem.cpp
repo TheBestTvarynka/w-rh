@@ -32,7 +32,7 @@ ProposalItem::ProposalItem(ProposalsViewer *p, const QMap<QString, QVariant> &or
 
     this->setLayout(page);
     this->setFixedHeight(200);
-    this->setFixedWidth(200);
+    this->setMinimumWidth(200);
 
     connect(this, SIGNAL(clicked()), this, SLOT(MakeDeal()));
     this->setStyleSheet("QWidget {"
