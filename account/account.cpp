@@ -19,15 +19,15 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
                             "QPushButton::hover {"
                             "background: #b88c53; }");
     connect(settings, SIGNAL(clicked()), this, SLOT(SetUserSettings()));
-    QPushButton *makeProposal = new QPushButton("Proposal manager");
-    makeProposal->setStyleSheet("QPushButton {"
+    permissions = new QPushButton("permissions");
+    permissions->setStyleSheet("QPushButton {"
                             "background: #ffe7d0;"
                             "color: #ffba00;"
                             "border-radius: 0px;"
                             "padding: 10px; }"
                             "QPushButton::hover {"
                             "background: #b88c53; }");
-    connect(makeProposal, SIGNAL(clicked()), this, SLOT(SetMakeProposal()));
+    connect(permissions, SIGNAL(clicked()), this, SLOT(SetUserPermissions()));
     QPushButton *logOut = new QPushButton("Log out");
     logOut->setStyleSheet("QPushButton {"
                             "background: #ffe7d0;"
@@ -40,7 +40,7 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
 
     QVBoxLayout *sideBarLayout = new QVBoxLayout;
     sideBarLayout->addWidget(settings);
-    sideBarLayout->addWidget(makeProposal);
+    sideBarLayout->addWidget(permissions);
     sideBarLayout->addWidget(logOut);
     sideBarLayout->addItem(space);
     sideBarLayout->setMargin(0);
@@ -118,7 +118,6 @@ QString Account::GetName()
 void Account::AddDealToUser(QString id)
 {
     // there we add proposal id to user data
-    qDebug() << "id of proposal: " << id;
     SetUserSettings();
     UserSettings *settings = (UserSettings *)content->layout()->takeAt(0)->widget();
     settings->AddDeal(id);
@@ -140,32 +139,44 @@ void Account::SetUserSettings()
     page->addWidget(settings);
 }
 
-void Account::SetMakeProposal()
+void Account::SetUserPermissions()
 {
     QVBoxLayout *page = (QVBoxLayout *)(content->layout());
     ClearLayout(page);
 
-    QLabel *proposalsLabel = new QLabel("Your proposals");
-    QListWidget *proposalsList = new QListWidget;
-    proposalsList->setStyleSheet("QListWidget {"
-                                 "background: #ffe7d0;"
-                                 "border-radius: 4px; }"
-                                 "QListWidget::item:hover { background: #b88c53; }"
-                                 "QListWidget::item:selected { background: #f095ee; }");
-    proposalsList->addItem("erferf");
-    proposalsList->addItem("ojoijijnvi");
-    QPushButton *deleteProposal = new QPushButton("delete");
-    QVBoxLayout *proposals = new QVBoxLayout;
-    proposals->addWidget(proposalsLabel);
-    proposals->addWidget(proposalsList);
-    proposals->addWidget(deleteProposal);
+    QString permissions = loader->GetPreference("permission").toString();
+    if (permissions == "user")
+    {
+        QLabel *proposalsLabel = new QLabel("Your proposals");
+        QListWidget *proposalsList = new QListWidget;
+        proposalsList->setStyleSheet("QListWidget {"
+                                     "background: #ffe7d0;"
+                                     "border-radius: 4px; }"
+                                     "QListWidget::item:hover { background: #b88c53; }"
+                                     "QListWidget::item:selected { background: #f095ee; }");
+        proposalsList->addItem("erferf");
+        proposalsList->addItem("ojoijijnvi");
+        QPushButton *deleteProposal = new QPushButton("delete");
+        QVBoxLayout *proposals = new QVBoxLayout;
+        proposals->addWidget(proposalsLabel);
+        proposals->addWidget(proposalsList);
+        proposals->addWidget(deleteProposal);
 
-    ProposalSender *sender = new ProposalSender;
-    connect(sender, SIGNAL(UpdateProposals()), Parent->GetViewer(), SLOT(UpdateProposal()));
-    sender->SetOwner(username);
+        ProposalSender *sender = new ProposalSender;
+        connect(sender, SIGNAL(UpdateProposals()), Parent->GetViewer(), SLOT(UpdateProposal()));
+        sender->SetOwner(username);
 
-    page->addLayout(proposals);
-    page->addWidget(sender);
+        page->addLayout(proposals);
+        page->addWidget(sender);
+    }
+    if (permissions == "manager")
+    {
+        page->addWidget(new manager);
+    }
+    if (permissions == "admin")
+    {
+        page->addWidget(new Admin);
+    }
 }
 
 void Account::DeleteProposal()
