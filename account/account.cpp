@@ -171,7 +171,7 @@ void Account::SetUserPermissions()
     }
     if (permissions == "manager")
     {
-        page->addWidget(new manager);
+        page->addWidget(new manager(username));
     }
     if (permissions == "admin")
     {
