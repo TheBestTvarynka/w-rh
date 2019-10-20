@@ -48,10 +48,50 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
     bank->addWidget(bankAccount);
 
     QCalendarWidget *calendar = new QCalendarWidget();
-//    calendar->setStyleSheet("QCalendarWidget {"
-//                            "width: 10px;"
-//                            "height: 10px;"
-//                            "}");
+    calendar->setSelectionMode(QCalendarWidget::SingleSelection);
+    //You can select the dates only for a week from today
+    calendar->setDateRange(QDate::currentDate(), QDate::currentDate().addDays(7));
+    calendar->setFirstDayOfWeek(Qt::Monday);
+
+    //setting the style of the calendar
+    {
+        //setting the style of the calendar areas
+        QTableView *view = calendar->findChild<QTableView*>("qt_calendar_calendarview");
+        if (view)
+        {
+            QPalette pal = view->palette();
+            pal.setColor(QPalette::Base, "#655b50");
+            pal.setColor(QPalette::AlternateBase, "#ffba00");
+            pal.setColor(QPalette::HighlightedText, Qt::white);
+            pal.setColor(QPalette::Highlight, "#ffba00");
+            view->setPalette(pal);
+        }
+
+        QTextCharFormat format = calendar->weekdayTextFormat(Qt::Saturday);
+
+        //setting the style of the days to the 'inactive' color
+//        format.setForeground(QBrush(Qt::lightGray, Qt::SolidPattern));
+//        calendar->setWeekdayTextFormat(Qt::Saturday, format);
+//        calendar->setWeekdayTextFormat(Qt::Sunday, format);
+//        calendar->setWeekdayTextFormat(Qt::Monday, format);
+//        calendar->setWeekdayTextFormat(Qt::Tuesday, format);
+//        calendar->setWeekdayTextFormat(Qt::Wednesday, format);
+//        calendar->setWeekdayTextFormat(Qt::Thursday, format);
+//        calendar->setWeekdayTextFormat(Qt::Friday, format);
+
+        //setting the style of the possible for selection days
+        QDate x = QDate::currentDate();
+        QDate y = QDate::currentDate().addDays(7);
+        format.setForeground(QBrush(Qt::green, Qt::SolidPattern));
+        while(x != y){
+            if(x.dayOfWeek() != Qt::Saturday && x.dayOfWeek() != Qt::Sunday) calendar->setDateTextFormat(x, format);
+            x = x.addDays(1);
+        }
+    }
+
+
+
+
 
     QPushButton *submit = new QPushButton("Submit");
     connect(submit, SIGNAL(clicked()), this, SLOT(MakeDial()));

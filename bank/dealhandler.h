@@ -9,6 +9,8 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QCalendarWidget>
+#include <QDate>
+#include <QTableView>
 
 #include "../proposals/proposalitem.h"
 #include "bank.h"
