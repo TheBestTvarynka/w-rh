@@ -50,7 +50,7 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
 
     QSpacerItem *space_before_calendar = new QSpacerItem(40, 20, QSizePolicy::Preferred, QSizePolicy::Expanding);
 
-    QCalendarWidget *calendar = new QCalendarWidget();
+    calendar = new QCalendarWidget();
     calendar->setSelectionMode(QCalendarWidget::SingleSelection);
     //You can select the dates only for a week from today
     calendar->setNavigationBarVisible(false);
@@ -74,7 +74,6 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
             pal.setColor(QPalette::Highlight, "#ffba00");
             view->setPalette(pal);
         }
-        qDebug() << "Hello!";
 
         //making the names for columns and rows names black
         QTextCharFormat header_format = calendar->headerTextFormat();
@@ -87,13 +86,19 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
         QDate x = calendar->minimumDate();
         QDate y = calendar->maximumDate();
         while(x != y.addDays(1)){
-            calendar->setNavigationBarVisible(true);
             calendar->setDateTextFormat(x, format);
             x = x.addDays(1);
         }
     }
+    connect(calendar, SIGNAL(selectionChanged()),
+            this, SLOT(ScheduleRevisionDate()));
 
-    connect(calendar, SIGNAL(calendar->activated(QDate &)), this, SLOT(ScheduleRevision(QDate &)));
+    date = new QLabel("You haven't selected the date yet!");
+
+    QComboBox *timeEdit = new QComboBox();
+
+
+    time = new QLabel("You haven't selected the time yet!");
 
     QPushButton *submit = new QPushButton("Submit");
     connect(submit, SIGNAL(clicked()), this, SLOT(MakeDial()));
@@ -102,6 +107,9 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
     page->addLayout(bank);
     page->addItem(space_before_calendar);
     page->addWidget(calendar);
+    page->addWidget(date);
+    page->addWidget(timeEdit);
+    page->addWidget(time);
     page->addWidget(submit);
     page->addItem(space);
     this->setLayout(page);
@@ -113,14 +121,15 @@ void DealHandler::SetBankAccountNumber(QString newBankAccountNumber)
     bancAccountNumber = newBankAccountNumber;
 }
 
-void DealHandler::ScheduleRevision(QDate selectedDate)
+void DealHandler::ScheduleRevisionDate()
 {
-    if(selectedDate.dayOfWeek() == Qt::Sunday || selectedDate.dayOfWeek() == Qt::Saturday) {
-        qDebug() << "WRONG)";
-        return;
-    }
-
     qDebug() << "Selected a date!";
+    date->setText("You have selected the date: " + calendar->selectedDate().toString());
+}
+
+void DealHandler::ScheduleRevisionTime()
+{
+    qDebug() << "Selected a time!";
 }
 
 void DealHandler::MakeDial()
