@@ -11,6 +11,7 @@
 #include <QCalendarWidget>
 #include <QDate>
 #include <QTableView>
+#include <QComboBox>
 
 #include "../proposals/proposalitem.h"
 #include "bank.h"
@@ -21,11 +22,14 @@ class DealHandler : public QDialog
     ProposalItem *item;
     QString bancAccountNumber;
     QLineEdit *bankAccount;
+    QCalendarWidget *calendar;
+    QLabel *date, *time;
     QDateTime *inspectionTime;
 public:
     DealHandler(QWidget *, ProposalItem *);
 public slots:
-    void ScheduleRevision(QDate);
+    void ScheduleRevisionDate();
+    void ScheduleRevisionTime();
     void SetBankAccountNumber(QString);
     void MakeDial();
 signals:
