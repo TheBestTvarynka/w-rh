@@ -5,10 +5,12 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QSpacerItem>
 
 class manager : public QWidget
 {
@@ -18,8 +20,8 @@ class manager : public QWidget
 public:
     manager(QString);
     void ReadSchedule();
-    void WriteSchedule();
 public slots:
+    void WriteSchedule();
     void Visited();
 };
 

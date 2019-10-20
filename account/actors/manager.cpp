@@ -6,14 +6,28 @@ manager::manager(QString name) : QWidget(nullptr)
     managerName = name;
     QLabel *meetingsLabel = new QLabel("Next meetings:");
     meetingsList = new QListWidget;
+    meetingsList->setStyleSheet("QListWidget {"
+                                "background: #ffe7d0;"
+                                "border-radius: 4px; }"
+                                "QListWidget::item:hover { background: #b88c53; }"
+                                "QListWidget::item:selected { background: #f095ee; }");
 
     QPushButton *visited = new QPushButton("visited");
     connect(visited, SIGNAL(clicked()), this, SLOT(Visited()));
 
+    QPushButton *save = new QPushButton("Save settins");
+    connect(save, SIGNAL(clicked()), this, SLOT(WriteSchedule()));
+
+    QSpacerItem *space = new QSpacerItem(10, 10, QSizePolicy::Expanding, QSizePolicy::Preferred);
+    QHBoxLayout *downPanel = new QHBoxLayout;
+    downPanel->addWidget(visited);
+    downPanel->addItem(space);
+    downPanel->addWidget(save);
+
     QVBoxLayout *page = new QVBoxLayout;
     page->addWidget(meetingsLabel);
     page->addWidget(meetingsList);
-    page->addWidget(visited);
+    page->addLayout(downPanel);
 
     this->setLayout(page);
     this->setStyleSheet("QWiget {"
@@ -46,7 +60,7 @@ void manager::WriteSchedule()
     QJsonArray restMeetings;
     for (int i = 0; i < meetingsList->count(); i++)
     {
-        restMeetings.push_back(meetingsList->takeItem(i)->text());
+        restMeetings.push_back(meetingsList->item(i)->text());
     }
     qDebug() << restMeetings;
     QFile managersSchedule("managers.json");
@@ -62,7 +76,7 @@ void manager::WriteSchedule()
 
     schedules[managerName] = QJsonValue(restMeetings);
 
-    QFile managersWrite("usersdata.json");
+    QFile managersWrite("managers.json");
     managersWrite.open(QIODevice::WriteOnly | QIODevice::Text);
     if (!managersWrite.isOpen())
     {
