@@ -25,6 +25,7 @@ class DealHandler : public QDialog
 public:
     DealHandler(QWidget *, ProposalItem *);
 public slots:
+    void ScheduleRevision(QDate);
     void SetBankAccountNumber(QString);
     void MakeDial();
 signals:
