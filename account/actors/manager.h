@@ -11,6 +11,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QSpacerItem>
+#include <QCheckBox>
 
 class manager : public QWidget
 {

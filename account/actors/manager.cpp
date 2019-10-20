@@ -24,14 +24,39 @@ manager::manager(QString name) : QWidget(nullptr)
     downPanel->addItem(space);
     downPanel->addWidget(save);
 
+    QCheckBox *day;
+    QHBoxLayout *week = new QHBoxLayout;
+    week->setSpacing(5);
+    for (int i = 0; i < 7; i++)
+    {
+        day = new QCheckBox("day");
+        week->addWidget(day);
+    }
+
     QVBoxLayout *page = new QVBoxLayout;
     page->addWidget(meetingsLabel);
     page->addWidget(meetingsList);
     page->addLayout(downPanel);
+    page->addLayout(week);
 
     this->setLayout(page);
     this->setStyleSheet("QWiget {"
-                        "background: black; }");
+                        "background: #ffba00; }"
+                        "QCheckBox::indicator {"
+                        "    width: 25px;"
+                        "    height: 25px; }"
+                        "QCheckBox::indicator:unchecked {"
+                        "    background: #ffba00; }"
+                        "QCheckBox::indicator:unchecked:hover {"
+                        "    background: #ba9841; }"
+                        "QCheckBox::indicator:unchecked:pressed {"
+                        "    background: #52431e; }"
+                        "QCheckBox::indicator:checked {"
+                        "    background: #2b241e; }"
+                        "QCheckBox::indicator:checked:hover {"
+                        "    background: #ba9841; }"
+                        "QCheckBox::indicator:checked:pressed {"
+                        "    background: #52431e; }");
 
     ReadSchedule();
 }
