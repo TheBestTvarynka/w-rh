@@ -40,5 +40,32 @@ void manager::ReadSchedule()
 
 void manager::WriteSchedule()
 {
+    QJsonArray restMeetings;
+    for (int i = 0; i < meetingsList->count(); i++)
+    {
+        restMeetings.push_back(meetingsList->takeItem(i)->text());
+    }
+    qDebug() << restMeetings;
+    QFile managersSchedule("managers.json");
+    managersSchedule.open(QIODevice::ReadOnly | QIODevice::Text);
+    if (!managersSchedule.isOpen())
+    {
+        qDebug() << "file not found";
+        return;
+    }
+    QString data = managersSchedule.readAll();
+    managersSchedule.close();
+    QJsonObject schedules = QJsonDocument::fromJson(data.toUtf8()).object();
 
+    schedules[managerName] = QJsonValue(restMeetings);
+
+    QFile managersWrite("usersdata.json");
+    managersWrite.open(QIODevice::WriteOnly | QIODevice::Text);
+    if (!managersWrite.isOpen())
+    {
+        qDebug() << "file not found";
+        return;
+    }
+    managersWrite.write(QJsonDocument(schedules).toJson());
+    managersWrite.close();
 }
