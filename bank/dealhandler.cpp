@@ -47,11 +47,18 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
     bank->addWidget(title);
     bank->addWidget(bankAccount);
 
+    QCalendarWidget *calendar = new QCalendarWidget();
+//    calendar->setStyleSheet("QCalendarWidget {"
+//                            "width: 10px;"
+//                            "height: 10px;"
+//                            "}");
+
     QPushButton *submit = new QPushButton("Submit");
     connect(submit, SIGNAL(clicked()), this, SLOT(MakeDial()));
 
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
     page->addLayout(bank);
+    page->addWidget(calendar);
     page->addWidget(submit);
     page->addItem(space);
     this->setLayout(page);
