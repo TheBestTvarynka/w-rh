@@ -36,6 +36,17 @@ AuthorizationHandler::AuthorizationHandler()
     connect(submit, SIGNAL(clicked()), this, SLOT(LogIn()));
     connect(cancel, SIGNAL(clicked()), this, SLOT(close()));
 
+    QPushButton *reg = new QPushButton("Need to account?");
+    reg->setStyleSheet("QPushButton {"
+                       "background: #655b50;"
+                       "color: #ffba00;"
+                       "border: none; }"
+                       "QPushButton::hover {"
+                       "background: #655b50;"
+                       "border: none;"
+                       "color: #bf4330; }");
+    connect(reg, SIGNAL(clicked()), this, SLOT(Register()));
+
     QSpacerItem *space_up = new QSpacerItem(50, 50, QSizePolicy::Preferred, QSizePolicy::Expanding);
     QSpacerItem *space_down = new QSpacerItem(50, 50, QSizePolicy::Preferred, QSizePolicy::Expanding);
     QVBoxLayout *main = new QVBoxLayout;
@@ -44,6 +55,7 @@ AuthorizationHandler::AuthorizationHandler()
     main->addItem(passLayout);
     main->addWidget(submit);
     main->addWidget(cancel);
+    main->addWidget(reg);
     main->addItem(space_down);
 
     this->setLayout(main);
@@ -99,4 +111,19 @@ QString AuthorizationHandler::GetUserName()
 QString AuthorizationHandler::GetUserPass()
 {
     return pass;
+}
+
+void AuthorizationHandler::Register()
+{
+    RegistrationHandler *reg = new RegistrationHandler;
+    reg->setStyleSheet("QWidget {"
+                       "background: #655b50; }"
+                       "QLineEdit {"
+                       "background: #ffba00; }"
+                       "QLabel {"
+                       "background: transparent; }");
+    reg->exec();
+    name = reg->GetUserName();
+    delete reg;
+    this->close();
 }

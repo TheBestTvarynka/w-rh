@@ -21,6 +21,7 @@ SOURCES += \
     account/actors/manager.cpp \
     account/authorizationhandler.cpp \
     account/meneger.cpp \
+    account/registrationhandler.cpp \
     account/usersettings.cpp \
     bank/bank.cpp \
     bank/dealhandler.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     account/actors/manager.h \
     account/authorizationhandler.h \
     account/meneger.h \
+    account/registrationhandler.h \
     account/usersettings.h \
     bank/bank.h \
     bank/dealhandler.h \

@@ -11,6 +11,8 @@
 #include <QFile>
 #include <QMessageBox>
 
+#include "registrationhandler.h"
+
 class Account;
 
 class AuthorizationHandler : public QDialog
@@ -28,6 +30,7 @@ public slots:
     bool VertifyAccount(QString, QString);
     QString GetUserName();
     QString GetUserPass();
+    void Register();
 };
 
 #endif // AUTHORIZATIONHANDLER_H
