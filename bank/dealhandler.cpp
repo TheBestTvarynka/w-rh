@@ -120,8 +120,7 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
             x = x.addDays(1);
         }
     }
-    QDate empty;
-    calendar->setSelectedDate(empty);
+    calendar->releaseMouse();
 
     connect(calendar, SIGNAL(selectionChanged()),
             this, SLOT(ScheduleRevisionDate()));
