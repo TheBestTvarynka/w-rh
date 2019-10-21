@@ -12,6 +12,10 @@
 #include <QDate>
 #include <QTableView>
 #include <QComboBox>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QVariant>
 
 #include "../proposals/proposalitem.h"
 #include "bank.h"
@@ -22,6 +26,7 @@ class DealHandler : public QDialog
     ProposalItem *item;
     QString bancAccountNumber;
     QLineEdit *bankAccount;
+    QVariantMap managersGraphic;
     QCalendarWidget *calendar;
     QLabel *date, *time;
     QDateTime *inspectionTime;
@@ -30,6 +35,7 @@ public:
 public slots:
     void ScheduleRevisionDate();
     void ScheduleRevisionTime();
+    QVariantMap ParseManagersGraphic(QString);
     void SetBankAccountNumber(QString);
     void MakeDial();
 signals:

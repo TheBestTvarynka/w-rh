@@ -50,6 +50,20 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
 
     QSpacerItem *space_before_calendar = new QSpacerItem(40, 20, QSizePolicy::Preferred, QSizePolicy::Expanding);
 
+    //parsing the managers.json to create the list of managers
+    QLabel *info_manager = new QLabel("Choose the manager:");
+    QComboBox *managerSelect = new QComboBox();
+    managersGraphic = ParseManagersGraphic("managers.json");
+    for(QVariantMap::iterator i = managersGraphic.begin(); i != managersGraphic.end(); i++)
+      managerSelect->addItem(i.key());
+    managerSelect->setStyleSheet("QComboBox {"
+                                 "background: #ffba00;"
+                                 "}");
+
+
+    QLabel *info_calendar = new QLabel("Choose the date:");
+
+    //initialized the calendar
     calendar = new QCalendarWidget();
     calendar->setSelectionMode(QCalendarWidget::SingleSelection);
     //You can select the dates only for a week from today
@@ -58,6 +72,7 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
     else if(QDate::currentDate().dayOfWeek() == Qt::Sunday) calendar->setDateRange(QDate::currentDate().addDays(1), QDate::currentDate().addDays(Qt::Saturday-QDate::currentDate().addDays(1).dayOfWeek()));
     else calendar->setDateRange(QDate::currentDate(), QDate::currentDate().addDays(Qt::Saturday-QDate::currentDate().dayOfWeek()-1));
     calendar->setFirstDayOfWeek(Qt::Monday);
+
     qDebug() << "The amount of visible days: " << calendar->maximumDate().dayOfWeek() - calendar->minimumDate().dayOfWeek() + 1;
 
     //setting the style of the calendar
@@ -85,8 +100,18 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
         format.setForeground(QBrush(Qt::green, Qt::SolidPattern));
         QDate x = calendar->minimumDate();
         QDate y = calendar->maximumDate();
+        //x.dayOfWeek() == managersGraphic[managerSelect->currentText()]
+        QVariant temp = managersGraphic[managerSelect->currentText()];
+        if (temp.canConvert<QVariantList>()) {
+            QSequentialIterable iterable = temp.value<QSequentialIterable>();
+            for (const QVariant& x : iterable){
+                 qDebug() << x.data();
+              }
+        }
+
         while(x != y.addDays(1)){
             calendar->setDateTextFormat(x, format);
+            //if(x.dayOfWeek() == managersGraphic[managerSelect->currentText()].toJsonArray().contains(x.dayOfWeek())) calendar->setDateTextFormat(x, format);
             x = x.addDays(1);
         }
     }
@@ -96,7 +121,7 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
     date = new QLabel("You haven't selected the date yet!");
 
     QComboBox *timeEdit = new QComboBox();
-
+    timeEdit->hide();
 
     time = new QLabel("You haven't selected the time yet!");
 
@@ -106,6 +131,9 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
     QSpacerItem *space = new QSpacerItem(40, 20, QSizePolicy::Preferred, QSizePolicy::Expanding);
     page->addLayout(bank);
     page->addItem(space_before_calendar);
+    page->addWidget(info_manager);
+    page->addWidget(managerSelect);
+    page->addWidget(info_calendar);
     page->addWidget(calendar);
     page->addWidget(date);
     page->addWidget(timeEdit);
@@ -130,6 +158,20 @@ void DealHandler::ScheduleRevisionDate()
 void DealHandler::ScheduleRevisionTime()
 {
     qDebug() << "Selected a time!";
+}
+
+QVariantMap DealHandler::ParseManagersGraphic(QString address){
+    QFile temp(address);
+    temp.open(QIODevice::ReadOnly | QIODevice::Text);
+    if (!temp.isOpen())
+        {
+            qDebug() << "file not found";
+            return {};
+        }
+    QString data = temp.readAll();
+    temp.close();
+    QJsonObject file = QJsonDocument::fromJson(data.toUtf8()).object();
+    return file.toVariantMap();
 }
 
 void DealHandler::MakeDial()
