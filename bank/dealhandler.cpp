@@ -52,7 +52,7 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
 
     //parsing the managers.json to create the list of managers
     QLabel *info_manager = new QLabel("Choose the manager:");
-    QComboBox *managerSelect = new QComboBox();
+    managerSelect = new QComboBox();
     managersGraphic = ParseManagersGraphic("managers.json");
     for(QVariantMap::iterator i = managersGraphic.begin(); i != managersGraphic.end(); i++)
       managerSelect->addItem(i.key());
@@ -85,7 +85,7 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
             pal.setColor(QPalette::Base, "#655b50");
             pal.setColor(QPalette::AlternateBase, "#ffba00");
             pal.setColor(QPalette::Text, Qt::gray);
-            pal.setColor(QPalette::HighlightedText, Qt::green);
+            pal.setColor(QPalette::HighlightedText, Qt::white);
             pal.setColor(QPalette::Highlight, "#ffba00");
             view->setPalette(pal);
         }
@@ -100,23 +100,32 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
         format.setForeground(QBrush(Qt::green, Qt::SolidPattern));
         QDate x = calendar->minimumDate();
         QDate y = calendar->maximumDate();
-        //x.dayOfWeek() == managersGraphic[managerSelect->currentText()]
+
+        QList<int> *days = new QList<int>();
         QVariant temp = managersGraphic[managerSelect->currentText()];
         if (temp.canConvert<QVariantList>()) {
             QSequentialIterable iterable = temp.value<QSequentialIterable>();
             for (const QVariant& x : iterable){
-                 qDebug() << x.data();
-              }
+              days->push_back(x.toInt());
+              qDebug() << x.toInt();
+            }
         }
 
         while(x != y.addDays(1)){
-            calendar->setDateTextFormat(x, format);
-            //if(x.dayOfWeek() == managersGraphic[managerSelect->currentText()].toJsonArray().contains(x.dayOfWeek())) calendar->setDateTextFormat(x, format);
+            //qDebug() << y.addDays(1).dayOfWeek() - x.dayOfWeek();
+            if(days->contains(x.dayOfWeek())) {
+                //qDebug() << "entered";
+                calendar->setDateTextFormat(x, format);
+            }
             x = x.addDays(1);
         }
     }
+    QDate empty;
+    calendar->setSelectedDate(empty);
+
     connect(calendar, SIGNAL(selectionChanged()),
             this, SLOT(ScheduleRevisionDate()));
+    connect(managerSelect, SIGNAL(currentIndexChanged(int)), this, SLOT(RefreshVisibleDays()));
 
     date = new QLabel("You haven't selected the date yet!");
 
@@ -172,6 +181,38 @@ QVariantMap DealHandler::ParseManagersGraphic(QString address){
     temp.close();
     QJsonObject file = QJsonDocument::fromJson(data.toUtf8()).object();
     return file.toVariantMap();
+}
+
+void DealHandler::RefreshVisibleDays(){
+  qDebug() << "entered";
+
+
+  QTextCharFormat format = calendar->weekdayTextFormat(Qt::Saturday);
+  format.setForeground(QBrush(Qt::green, Qt::SolidPattern));
+  QTextCharFormat format_invisible = format;
+  format_invisible.setForeground(QBrush(Qt::lightGray, Qt::SolidPattern));
+  QDate x = calendar->minimumDate();
+  QDate y = calendar->maximumDate();
+
+  QList<int> *days = new QList<int>();
+  QVariant temp = managersGraphic[managerSelect->currentText()];
+  if (temp.canConvert<QVariantList>()) {
+      QSequentialIterable iterable = temp.value<QSequentialIterable>();
+      for (const QVariant& x : iterable){
+        days->push_back(x.toInt());
+        qDebug() << x.toInt();
+      }
+  }
+
+
+  while(x != y.addDays(1)){
+      //qDebug() << y.addDays(1).dayOfWeek() - x.dayOfWeek();
+      if(days->contains(x.dayOfWeek()))
+        calendar->setDateTextFormat(x, format);
+      else
+        calendar->setDateTextFormat(x, format_invisible);
+      x = x.addDays(1);
+  }
 }
 
 void DealHandler::MakeDial()
