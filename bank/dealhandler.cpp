@@ -5,7 +5,6 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
 {
     item = i;
     QVBoxLayout *page = new QVBoxLayout;
-
     QHBoxLayout *inscription;
     QLabel *title, *value;
     QMap<QString, QVariant> *details = i->GetProposal();
@@ -73,8 +72,6 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
     else calendar->setDateRange(QDate::currentDate(), QDate::currentDate().addDays(Qt::Saturday-QDate::currentDate().dayOfWeek()-1));
     calendar->setFirstDayOfWeek(Qt::Monday);
 
-    qDebug() << "The amount of visible days: " << calendar->maximumDate().dayOfWeek() - calendar->minimumDate().dayOfWeek() + 1;
-
     //setting the style of the calendar
     {
         //setting the style of the calendar areas and unable to select days
@@ -96,32 +93,7 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
         calendar->setHeaderTextFormat(header_format);
 
         //setting the style of the possible for selection days
-        QTextCharFormat format = calendar->weekdayTextFormat(Qt::Saturday);
-        format.setForeground(QBrush(Qt::green, Qt::SolidPattern));
-        QTextCharFormat format_invisible = format;
-        format_invisible.setForeground(QBrush(Qt::black, Qt::SolidPattern));
-        QDate x = calendar->minimumDate();
-        QDate y = calendar->maximumDate();
-
-        QList<int> *days = new QList<int>();
-        QVariant temp = managersGraphic[managerSelect->currentText()];
-        if (temp.canConvert<QVariantList>()) {
-            QSequentialIterable iterable = temp.value<QSequentialIterable>();
-            for (const QVariant& x : iterable){
-              days->push_back(x.toInt());
-              qDebug() << x.toInt();
-            }
-        }
-
-        while(x != y.addDays(1)){
-            //qDebug() << y.addDays(1).dayOfWeek() - x.dayOfWeek();
-            if(days->contains(x.dayOfWeek())) {
-                //qDebug() << "entered";
-                calendar->setDateTextFormat(x, format);
-            }
-            else calendar->setDateTextFormat(x, format_invisible);
-            x = x.addDays(1);
-        }
+        RefreshVisibleDays();
     }
     calendar->releaseMouse();
 
@@ -133,15 +105,29 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
 
     timeEdit = new QComboBox();
 
-    //parsing the managersdata.json to create the list of managers
-//    managersMeetings = ParseManagersMeetings("managersdata.json");
-//    for(QVariantMap::iterator i = managersMeetings.begin(); i != managersMeetings.end(); i++)
-//      managerSelect->addItem(i.key());
-//    managerSelect->setStyleSheet("QComboBox {"
-//                                 "background: #ffba00;"
-//                                 "}");
-    timeEdit->hide();
+    //parsing the meetings.json to create the list of managers
+    managersMeetings = ParseManagersMeetings("meetings.json");
+    QList<int> *hours = new QList<int>();
+    QVariant temp2 = managersMeetings[managerSelect->currentText()];
+    if (temp2.canConvert<QVariantList>()) {
+        QSequentialIterable iterable = temp2.value<QSequentialIterable>();
+        for (const QVariant& x : iterable){
+          hours->push_back(ParseMeeting(x)[2].split(':')[0].toInt());
+        }
+    }
 
+    //filling the timeEdit with possible for choosing variants
+    for(QTime i = QTime(8, 0, 0); i < QTime(24, 0, 0); i = i.addSecs(60 * 60)){
+        if(hours->contains(i.hour())) {
+            qDebug() << "hour found: " << i.hour();
+            continue;
+        }
+        timeEdit->addItem(i.toString());
+    }
+    timeEdit->setStyleSheet("QComboBox {"
+                                 "background: #ffba00;"
+                                 "}");
+    timeEdit->hide();
     connect(timeEdit, SIGNAL(currentIndexChanged(int)), this, SLOT(ScheduleRevisionTime()));
 
     time = new QLabel("You haven't selected the time yet!");
@@ -178,7 +164,6 @@ void DealHandler::ScheduleRevisionDate()
         QSequentialIterable iterable = temp.value<QSequentialIterable>();
         for (const QVariant& x : iterable){
           days->push_back(x.toInt());
-          qDebug() << x.toInt();
         }
     }
     if(days->contains(calendar->selectedDate().dayOfWeek())){
@@ -211,11 +196,24 @@ QVariantMap DealHandler::ParseManagersGraphic(QString address){
 }
 
 QVariantMap DealHandler::ParseManagersMeetings(QString address){
-  return {};
+  QFile temp(address);
+  temp.open(QIODevice::ReadOnly | QIODevice::Text);
+  if (!temp.isOpen())
+      {
+          qDebug() << "file not found";
+          return {};
+      }
+  QString data = temp.readAll();
+  temp.close();
+  QJsonObject file = QJsonDocument::fromJson(data.toUtf8()).object();
+  return file.toVariantMap();
+}
+
+QStringList DealHandler::ParseMeeting(QVariant meeting){
+    return meeting.toString().split('/');
 }
 
 void DealHandler::RefreshVisibleDays(){
-  qDebug() << "entered";
 
 
   QTextCharFormat format = calendar->weekdayTextFormat(Qt::Saturday);
@@ -231,13 +229,10 @@ void DealHandler::RefreshVisibleDays(){
       QSequentialIterable iterable = temp.value<QSequentialIterable>();
       for (const QVariant& x : iterable){
         days->push_back(x.toInt());
-        qDebug() << x.toInt();
       }
   }
 
-
   while(x != y.addDays(1)){
-      //qDebug() << y.addDays(1).dayOfWeek() - x.dayOfWeek();
       if(days->contains(x.dayOfWeek()))
         calendar->setDateTextFormat(x, format);
       else
@@ -246,10 +241,44 @@ void DealHandler::RefreshVisibleDays(){
   }
 }
 
+void DealHandler::WriteMeetings(QString address, QString meeting){
+  QFile temp(address);
+  temp.open(QIODevice::ReadOnly | QIODevice::Text);
+  if (!temp.isOpen())
+      {
+          qDebug() << "file not found";
+          return;
+      }
+  QString data = temp.readAll();
+  temp.close();
+  QJsonObject file = QJsonDocument::fromJson(data.toUtf8()).object();
+  QJsonArray arr = file[managerSelect->currentText()].toArray();
+  arr.push_back(meeting);
+  file[managerSelect->currentText()] = arr;
+
+  temp.open(QIODevice::WriteOnly | QIODevice::Text);
+  if (!temp.isOpen())
+      {
+          qDebug() << "file not found";
+          return;
+      }
+  temp.write(QJsonDocument(file).toJson());
+  temp.close();
+}
+
 void DealHandler::MakeDial()
 {
-    Bank *bank = new Bank("bankusers.json");
-
-    emit AddToUser(item->GetProposalDetails("id").toString());
-    this->close();
+    if(timeEdit->isHidden()){
+        QMessageBox msgBox;
+        msgBox.setText("You have to choose appropriate date and time to continue!");
+        msgBox.exec();
+      }
+    else{
+      //Bank *bank = new Bank("bankusers.json");
+      QString meeting("id: " + item->GetProposalDetails("id").toString() + "/" + QDateTime().currentDateTime().date().toString() + "/" + QDateTime().currentDateTime().time().toString());
+      WriteMeetings("meetings.json", meeting);
+      return;
+      emit AddToUser(item->GetProposalDetails("id").toString());
+      this->close();
+    }
 }

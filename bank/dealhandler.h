@@ -16,6 +16,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QVariant>
+#include <QMessageBox>
 
 #include "../proposals/proposalitem.h"
 #include "bank.h"
@@ -40,6 +41,8 @@ public slots:
     void RefreshVisibleDays();
     QVariantMap ParseManagersGraphic(QString);
     QVariantMap ParseManagersMeetings(QString);
+    QStringList ParseMeeting(QVariant);
+    void WriteMeetings(QString, QString);
     void SetBankAccountNumber(QString);
     void MakeDial();
 signals:
