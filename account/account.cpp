@@ -29,7 +29,7 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
                             "background: #b88c53; }");
 
     connect(permissionsButton, SIGNAL(clicked()), this, SLOT(SetUserPermissions()));
-    logOut = new QPushButton("Log out");
+    QPushButton *logOut = new QPushButton("Log out");
     logOut->setStyleSheet("QPushButton {"
                             "background: #ffe7d0;"
                             "color: #ffba00;"
@@ -42,8 +42,8 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
 
     QVBoxLayout *sideBarLayout = new QVBoxLayout;
-    sideBarLayout->addWidget(settings);
 
+    sideBarLayout->addWidget(settings);
     sideBarLayout->addWidget(permissionsButton);
     sideBarLayout->addWidget(logOut);
     sideBarLayout->addItem(space);
@@ -110,7 +110,8 @@ void Account::LogIn()
     }
 }
 
-void Account::LogOut(){
+void Account::LogOut()
+{
     qDebug() << "Logging out...";
     username.clear();
     Parent->LoadProposals();

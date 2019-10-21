@@ -25,7 +25,6 @@ class Account : public QSplitter
     MainGUIWindow *Parent;
     QWidget *content;
     QPushButton *permissionsButton;
-    QPushButton *logOut;
     QString username;
 //    QPushButton *manager;
 public:
