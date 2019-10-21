@@ -7,7 +7,6 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
     Parent = p;
     username = "";
     loader = nullptr;
-    loader = new UserDataLoader();
 
     QPushButton *settings = new QPushButton("Accout settings");
     settings->setStyleSheet("QPushButton {"
@@ -104,8 +103,8 @@ void Account::LogIn()
     username = login->GetUserName();
     if (username != "")
     {
+        loader = new UserDataLoader;
         loader->ReadUserData(username);
-
         SetUserPermissions();
     }
 }
@@ -113,7 +112,10 @@ void Account::LogIn()
 void Account::LogOut()
 {
     qDebug() << "Logging out...";
+    QVBoxLayout *page = (QVBoxLayout *)(content->layout());
+    ClearLayout(page);
     username.clear();
+    delete loader;
     Parent->LoadProposals();
     qDebug() << "Logged out...";
 }

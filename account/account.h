@@ -31,7 +31,6 @@ public:
     Account(MainGUIWindow *, Qt::Orientation orientation);
     void ClearLayout(QLayout *);
     void LogIn();
-    void LogOut();
     void WriteSettings(QMap<QString, QVariant>);
 public slots:
     QString GetName();
@@ -39,6 +38,7 @@ public slots:
     void SetUserSettings();
     void SetUserPermissions();
     void DeleteProposal();
+    void LogOut();
 };
 
 #endif // ACCOUNT_H
