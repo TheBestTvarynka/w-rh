@@ -36,6 +36,7 @@ ProposalsViewer::ProposalsViewer(Account *p)
                            "background: #655b50;"
                            "border-radius: 8px; }");
     content->setWidget(blank);
+    content->setWidgetResizable(true);
 
     main = new QSplitter;
     main->addWidget(filter);
