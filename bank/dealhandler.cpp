@@ -14,6 +14,7 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
         {
             title = new QLabel(i.key());
             QList<QVariant> photos = i.value().toList();
+            qDebug() << photos.size();
             QVBoxLayout *collectionPhoto = new QVBoxLayout;
             for (QList<QVariant>::Iterator photo = photos.begin(); photo != photos.end(); photo++)
             {

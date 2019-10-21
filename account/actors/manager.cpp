@@ -72,6 +72,7 @@ manager::manager(QString name) : QWidget(nullptr)
                         "    background: #52431e; }");
 
     ReadSchedule();
+    ReadMeetings();
 }
 
 void manager::ReadMeetings()
@@ -86,7 +87,9 @@ void manager::ReadMeetings()
     QString data = managersMeetings.readAll();
     managersMeetings.close();
     QJsonObject schedules = QJsonDocument::fromJson(data.toUtf8()).object();
+    qDebug() << schedules;
     QJsonArray curManagerSchedule = schedules[managerName].toArray();
+    qDebug() << curManagerSchedule;
     for (QJsonArray::iterator it = curManagerSchedule.begin(); it != curManagerSchedule.end(); it++)
     {
         meetingsList->addItem(it->toString());

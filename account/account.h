@@ -26,7 +26,7 @@ class Account : public QSplitter
     QWidget *content;
     QPushButton *permissionsButton;
     QString username;
-    QPushButton *manager;
+//    QPushButton *manager;
 public:
     Account(MainGUIWindow *, Qt::Orientation orientation);
     void ClearLayout(QLayout *);

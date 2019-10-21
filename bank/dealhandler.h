@@ -18,6 +18,7 @@
 #include <QJsonObject>
 #include <QVariant>
 #include <QMessageBox>
+#include <QDateTimeEdit>
 
 #include "../proposals/proposalitem.h"
 #include "bank.h"
@@ -25,6 +26,7 @@
 class DealHandler : public QDialog
 {
     Q_OBJECT
+    QDateTimeEdit *datetimeEdit;
     ProposalItem *item;
     QString bancAccountNumber;
     QLineEdit *bankAccount;
