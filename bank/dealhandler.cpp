@@ -97,38 +97,17 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
     }
     calendar->releaseMouse();
 
-    connect(calendar, SIGNAL(selectionChanged()),
-            this, SLOT(ScheduleRevisionDate()));
+    connect(calendar, SIGNAL(selectionChanged()), this, SLOT(ScheduleRevisionDate()));
+    connect(calendar, SIGNAL(selectionChanged()), this, SLOT(ScheduleRevisionTime()));
     connect(managerSelect, SIGNAL(currentIndexChanged(int)), this, SLOT(RefreshVisibleDays()));
 
     date = new QLabel("You haven't selected the date yet!");
 
     timeEdit = new QComboBox();
 
-    //parsing the meetings.json to create the list of managers
-    managersMeetings = ParseManagersMeetings("meetings.json");
-    QList<int> *hours = new QList<int>();
-    QVariant temp2 = managersMeetings[managerSelect->currentText()];
-    if (temp2.canConvert<QVariantList>()) {
-        QSequentialIterable iterable = temp2.value<QSequentialIterable>();
-        for (const QVariant& x : iterable){
-          hours->push_back(ParseMeeting(x)[2].split(':')[0].toInt());
-        }
-    }
-
-    //filling the timeEdit with possible for choosing variants
-    for(QTime i = QTime(8, 0, 0); i < QTime(24, 0, 0); i = i.addSecs(60 * 60)){
-        if(hours->contains(i.hour())) {
-            qDebug() << "hour found: " << i.hour();
-            continue;
-        }
-        timeEdit->addItem(i.toString());
-    }
-    timeEdit->setStyleSheet("QComboBox {"
-                                 "background: #ffba00;"
-                                 "}");
+    ScheduleRevisionTime();
     timeEdit->hide();
-    connect(timeEdit, SIGNAL(currentIndexChanged(int)), this, SLOT(ScheduleRevisionTime()));
+    connect(timeEdit, SIGNAL(currentIndexChanged(int)), this, SLOT(RefreshTime()));
 
     time = new QLabel("You haven't selected the time yet!");
 
@@ -167,7 +146,7 @@ void DealHandler::ScheduleRevisionDate()
         }
     }
     if(days->contains(calendar->selectedDate().dayOfWeek())){
-        date->setText("You have selected the date: " + calendar->selectedDate().toString());
+        date->setText(calendar->selectedDate().toString());
         timeEdit->show();
     }
     else {
@@ -179,6 +158,37 @@ void DealHandler::ScheduleRevisionDate()
 void DealHandler::ScheduleRevisionTime()
 {
     qDebug() << "Selected a time!";
+    //parsing the meetings.json to create the list of managers
+    managersMeetings = ParseManagersMeetings("meetings.json");
+    QList<int> *hours = new QList<int>();
+    QVariant temp2 = managersMeetings[managerSelect->currentText()];
+    timeEdit->clear();
+    if (temp2.canConvert<QVariantList>()) {
+        QSequentialIterable iterable = temp2.value<QSequentialIterable>();
+        QDate temp3;
+        for (const QVariant& x : iterable){
+            qDebug() << "ITEM: " << x;
+            temp3 = QDate::fromString(ParseMeeting(x)[1], "ddd MMM dd yyyy");
+            if(temp3 == calendar->selectedDate()) {
+                qDebug() << "hour: " << ParseMeeting(x)[2].split(':')[0].toInt();
+                hours->push_back(ParseMeeting(x)[2].split(':')[0].toInt());
+            }
+        }
+    }
+
+    //filling the timeEdit with possible for choosing variants
+    QTime time_iter = QTime(8, 0, 0);
+    while(time_iter.hour() < QTime(18, 0, 0).hour()){
+        if(hours->contains(time_iter.hour())) {
+            time_iter = time_iter.addSecs(60 * 60);
+            continue;
+        }
+        timeEdit->addItem(time_iter.toString());
+        time_iter = time_iter.addSecs(60 * 60);
+    }
+    timeEdit->setStyleSheet("QComboBox {"
+                                 "background: #ffba00;"
+                                 "}");
 }
 
 QVariantMap DealHandler::ParseManagersGraphic(QString address){
@@ -241,6 +251,10 @@ void DealHandler::RefreshVisibleDays(){
   }
 }
 
+void DealHandler::RefreshTime(){
+  time->setText(timeEdit->currentText());
+}
+
 void DealHandler::WriteMeetings(QString address, QString meeting){
   QFile temp(address);
   temp.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -268,16 +282,15 @@ void DealHandler::WriteMeetings(QString address, QString meeting){
 
 void DealHandler::MakeDial()
 {
-    if(timeEdit->isHidden()){
+    if(timeEdit->isHidden() || time->text() == "You haven't selected the time yet!"){
         QMessageBox msgBox;
         msgBox.setText("You have to choose appropriate date and time to continue!");
         msgBox.exec();
       }
     else{
-      //Bank *bank = new Bank("bankusers.json");
-      QString meeting("id: " + item->GetProposalDetails("id").toString() + "/" + QDateTime().currentDateTime().date().toString() + "/" + QDateTime().currentDateTime().time().toString());
+      Bank *bank = new Bank("bankusers.json");
+      QString meeting("id: " + item->GetProposalDetails("id").toString() + "/" + date->text() + "/" + time->text());
       WriteMeetings("meetings.json", meeting);
-      return;
       emit AddToUser(item->GetProposalDetails("id").toString());
       this->close();
     }

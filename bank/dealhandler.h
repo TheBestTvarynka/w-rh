@@ -42,6 +42,7 @@ public slots:
     QVariantMap ParseManagersGraphic(QString);
     QVariantMap ParseManagersMeetings(QString);
     QStringList ParseMeeting(QVariant);
+    void RefreshTime();
     void WriteMeetings(QString, QString);
     void SetBankAccountNumber(QString);
     void MakeDial();
