@@ -98,6 +98,8 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
         //setting the style of the possible for selection days
         QTextCharFormat format = calendar->weekdayTextFormat(Qt::Saturday);
         format.setForeground(QBrush(Qt::green, Qt::SolidPattern));
+        QTextCharFormat format_invisible = format;
+        format_invisible.setForeground(QBrush(Qt::black, Qt::SolidPattern));
         QDate x = calendar->minimumDate();
         QDate y = calendar->maximumDate();
 
@@ -117,6 +119,7 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
                 //qDebug() << "entered";
                 calendar->setDateTextFormat(x, format);
             }
+            else calendar->setDateTextFormat(x, format_invisible);
             x = x.addDays(1);
         }
     }
@@ -128,8 +131,18 @@ DealHandler::DealHandler(QWidget *parent, ProposalItem *i) : QDialog(parent)
 
     date = new QLabel("You haven't selected the date yet!");
 
-    QComboBox *timeEdit = new QComboBox();
+    timeEdit = new QComboBox();
+
+    //parsing the managersdata.json to create the list of managers
+//    managersMeetings = ParseManagersMeetings("managersdata.json");
+//    for(QVariantMap::iterator i = managersMeetings.begin(); i != managersMeetings.end(); i++)
+//      managerSelect->addItem(i.key());
+//    managerSelect->setStyleSheet("QComboBox {"
+//                                 "background: #ffba00;"
+//                                 "}");
     timeEdit->hide();
+
+    connect(timeEdit, SIGNAL(currentIndexChanged(int)), this, SLOT(ScheduleRevisionTime()));
 
     time = new QLabel("You haven't selected the time yet!");
 
@@ -159,8 +172,23 @@ void DealHandler::SetBankAccountNumber(QString newBankAccountNumber)
 
 void DealHandler::ScheduleRevisionDate()
 {
-    qDebug() << "Selected a date!";
-    date->setText("You have selected the date: " + calendar->selectedDate().toString());
+    QList<int> *days = new QList<int>();
+    QVariant temp = managersGraphic[managerSelect->currentText()];
+    if (temp.canConvert<QVariantList>()) {
+        QSequentialIterable iterable = temp.value<QSequentialIterable>();
+        for (const QVariant& x : iterable){
+          days->push_back(x.toInt());
+          qDebug() << x.toInt();
+        }
+    }
+    if(days->contains(calendar->selectedDate().dayOfWeek())){
+        date->setText("You have selected the date: " + calendar->selectedDate().toString());
+        timeEdit->show();
+    }
+    else {
+        date->setText("Selected manager does not work in this day!");
+        timeEdit->hide();
+    }
 }
 
 void DealHandler::ScheduleRevisionTime()
@@ -182,6 +210,10 @@ QVariantMap DealHandler::ParseManagersGraphic(QString address){
     return file.toVariantMap();
 }
 
+QVariantMap DealHandler::ParseManagersMeetings(QString address){
+  return {};
+}
+
 void DealHandler::RefreshVisibleDays(){
   qDebug() << "entered";
 
@@ -189,7 +221,7 @@ void DealHandler::RefreshVisibleDays(){
   QTextCharFormat format = calendar->weekdayTextFormat(Qt::Saturday);
   format.setForeground(QBrush(Qt::green, Qt::SolidPattern));
   QTextCharFormat format_invisible = format;
-  format_invisible.setForeground(QBrush(Qt::lightGray, Qt::SolidPattern));
+  format_invisible.setForeground(QBrush(Qt::black, Qt::SolidPattern));
   QDate x = calendar->minimumDate();
   QDate y = calendar->maximumDate();
 

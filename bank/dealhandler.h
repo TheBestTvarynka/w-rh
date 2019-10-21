@@ -27,7 +27,8 @@ class DealHandler : public QDialog
     QString bancAccountNumber;
     QLineEdit *bankAccount;
     QComboBox *managerSelect;
-    QVariantMap managersGraphic;
+    QComboBox *timeEdit;
+    QVariantMap managersGraphic, managersMeetings;
     QCalendarWidget *calendar;
     QLabel *date, *time;
     QDateTime *inspectionTime;
@@ -38,6 +39,7 @@ public slots:
     void ScheduleRevisionTime();
     void RefreshVisibleDays();
     QVariantMap ParseManagersGraphic(QString);
+    QVariantMap ParseManagersMeetings(QString);
     void SetBankAccountNumber(QString);
     void MakeDial();
 signals:
