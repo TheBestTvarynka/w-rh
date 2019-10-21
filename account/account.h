@@ -25,12 +25,14 @@ class Account : public QSplitter
     MainGUIWindow *Parent;
     QWidget *content;
     QPushButton *permissionsButton;
+    QPushButton *logOut;
     QString username;
 //    QPushButton *manager;
 public:
     Account(MainGUIWindow *, Qt::Orientation orientation);
     void ClearLayout(QLayout *);
     void LogIn();
+    void LogOut();
     void WriteSettings(QMap<QString, QVariant>);
 public slots:
     QString GetName();

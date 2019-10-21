@@ -19,7 +19,7 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
                             "QPushButton::hover {"
                             "background: #b88c53; }");
     connect(settings, SIGNAL(clicked()), this, SLOT(SetUserSettings()));
-    permissionsButton = new QPushButton("permissions");
+    permissionsButton = new QPushButton("Permissions");
     permissionsButton->setStyleSheet("QPushButton {"
                             "background: #ffe7d0;"
                             "color: #ffba00;"
@@ -29,7 +29,7 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
                             "background: #b88c53; }");
 
     connect(permissionsButton, SIGNAL(clicked()), this, SLOT(SetUserPermissions()));
-    QPushButton *logOut = new QPushButton("Log out");
+    logOut = new QPushButton("Log out");
     logOut->setStyleSheet("QPushButton {"
                             "background: #ffe7d0;"
                             "color: #ffba00;"
@@ -37,6 +37,8 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
                             "padding: 10px; }"
                             "QPushButton::hover {"
                             "background: #b88c53; }");
+    connect(logOut, SIGNAL(clicked()), this, SLOT(LogOut()));
+
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
 
     QVBoxLayout *sideBarLayout = new QVBoxLayout;
@@ -108,6 +110,13 @@ void Account::LogIn()
     }
 }
 
+void Account::LogOut(){
+    qDebug() << "Logging out...";
+    username.clear();
+    Parent->LoadProposals();
+    qDebug() << "Logged out...";
+}
+
 void Account::WriteSettings(QMap<QString, QVariant> newSettings)
 {
     loader->WriteSettings(newSettings);
@@ -175,7 +184,7 @@ void Account::SetUserPermissions()
     }
     if (permissions == "manager")
     {
-        permissionsButton->setText("ManagerProfile");
+        permissionsButton->setText("Manager Profile");
         page->addWidget(new manager(username));
     }
     if (permissions == "admin")
