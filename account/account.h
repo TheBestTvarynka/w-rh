@@ -24,7 +24,7 @@ class Account : public QSplitter
     UserDataLoader *loader;
     MainGUIWindow *Parent;
     QWidget *content;
-    QPushButton *permissions;
+    QPushButton *permissionsButton;
     QString username;
 public:
     Account(MainGUIWindow *, Qt::Orientation orientation);

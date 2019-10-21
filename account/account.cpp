@@ -19,15 +19,15 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
                             "QPushButton::hover {"
                             "background: #b88c53; }");
     connect(settings, SIGNAL(clicked()), this, SLOT(SetUserSettings()));
-    permissions = new QPushButton("permissions");
-    permissions->setStyleSheet("QPushButton {"
+    permissionsButton = new QPushButton("permissions");
+    permissionsButton->setStyleSheet("QPushButton {"
                             "background: #ffe7d0;"
                             "color: #ffba00;"
                             "border-radius: 0px;"
                             "padding: 10px; }"
                             "QPushButton::hover {"
                             "background: #b88c53; }");
-    connect(permissions, SIGNAL(clicked()), this, SLOT(SetUserPermissions()));
+    connect(permissionsButton, SIGNAL(clicked()), this, SLOT(SetUserPermissions()));
     QPushButton *logOut = new QPushButton("Log out");
     logOut->setStyleSheet("QPushButton {"
                             "background: #ffe7d0;"
@@ -40,7 +40,7 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
 
     QVBoxLayout *sideBarLayout = new QVBoxLayout;
     sideBarLayout->addWidget(settings);
-    sideBarLayout->addWidget(permissions);
+    sideBarLayout->addWidget(permissionsButton);
     sideBarLayout->addWidget(logOut);
     sideBarLayout->addItem(space);
     sideBarLayout->setMargin(0);
@@ -101,7 +101,7 @@ void Account::LogIn()
     if (username != "")
     {
         loader->ReadUserData(username);
-        SetUserSettings();
+        SetUserPermissions();
     }
 }
 
@@ -147,6 +147,7 @@ void Account::SetUserPermissions()
     QString permissions = loader->GetPreference("permission").toString();
     if (permissions == "user")
     {
+        permissionsButton->setText("Proposals");
         QLabel *proposalsLabel = new QLabel("Your proposals");
         QListWidget *proposalsList = new QListWidget;
         proposalsList->setStyleSheet("QListWidget {"
@@ -171,10 +172,12 @@ void Account::SetUserPermissions()
     }
     if (permissions == "manager")
     {
+        permissionsButton->setText("ManagerProfile");
         page->addWidget(new manager(username));
     }
     if (permissions == "admin")
     {
+        permissionsButton->setText("Admin profile");
         page->addWidget(new Admin);
     }
 }
