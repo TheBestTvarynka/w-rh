@@ -25,19 +25,30 @@ manager::manager(QString name) : QWidget(nullptr)
     downPanel->addWidget(save);
 
     QCheckBox *day;
+    QVector<QString> daysWeek = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
     QHBoxLayout *week = new QHBoxLayout;
     week->setSpacing(5);
     for (int i = 0; i < 7; i++)
     {
-        day = new QCheckBox("day");
+        day = new QCheckBox(daysWeek[i]);
         week->addWidget(day);
     }
+
+    QPushButton *updateSchedule = new QPushButton("Update schedule");
+    QSpacerItem *scheduleSpace = new QSpacerItem(10, 10, QSizePolicy::Expanding, QSizePolicy::Preferred);
+    QHBoxLayout *submitSchedule = new QHBoxLayout;
+    submitSchedule->addItem(scheduleSpace);
+    submitSchedule->addWidget(updateSchedule);
+
+    QVBoxLayout *schedule = new QVBoxLayout;
+    schedule->addLayout(week);
+    schedule->addLayout(submitSchedule);
 
     QVBoxLayout *page = new QVBoxLayout;
     page->addWidget(meetingsLabel);
     page->addWidget(meetingsList);
     page->addLayout(downPanel);
-    page->addLayout(week);
+    page->addLayout(schedule);
 
     this->setLayout(page);
     this->setStyleSheet("QWiget {"
@@ -54,7 +65,7 @@ manager::manager(QString name) : QWidget(nullptr)
                         "QCheckBox::indicator:checked {"
                         "    background: #2b241e; }"
                         "QCheckBox::indicator:checked:hover {"
-                        "    background: #ba9841; }"
+                        "    background: #7e5c05; }"
                         "QCheckBox::indicator:checked:pressed {"
                         "    background: #52431e; }");
 
