@@ -76,7 +76,7 @@ manager::manager(QString name) : QWidget(nullptr)
 
 void manager::ReadMeetings()
 {
-    QFile managersMeetings("meetings.json   ");
+    QFile managersMeetings("meetings.json");
     managersMeetings.open(QIODevice::ReadOnly | QIODevice::Text);
     if (!managersMeetings.isOpen())
     {
@@ -95,7 +95,21 @@ void manager::ReadMeetings()
 
 void manager::ReadSchedule()
 {
-
+    QFile managerSchedule("managers.json");
+    managerSchedule.open(QIODevice::ReadOnly | QIODevice::Text);
+    if (!managerSchedule.isOpen())
+    {
+        qDebug() << "file not found";
+        return;
+    }
+    QString data = managerSchedule.readAll();
+    managerSchedule.close();
+    QJsonArray schedule = QJsonDocument::fromJson(data.toUtf8())[managerName].toArray();
+    qDebug() << schedule;
+    for (QJsonArray::iterator it = schedule.begin(); it != schedule.end(); it++)
+    {
+        weekDays[it->toInt()]->setCheckState(Qt::CheckState::Checked);
+    }
 }
 
 void manager::WriteMeetings()
@@ -142,7 +156,7 @@ void manager::WriteSchedule()
     {
         if (weekDays[i]->isChecked())
         {
-            newSchedule.push_back(i + 1);
+            newSchedule.push_back(i);
         }
     }
 
