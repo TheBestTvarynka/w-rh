@@ -38,6 +38,7 @@ public slots:
     void SetUserSettings();
     void SetUserPermissions();
     void DeleteProposal();
+    void LogOut();
 };
 
 #endif // ACCOUNT_H

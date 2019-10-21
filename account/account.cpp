@@ -7,7 +7,6 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
     Parent = p;
     username = "";
     loader = nullptr;
-    loader = new UserDataLoader();
 
     QPushButton *settings = new QPushButton("Accout settings");
     settings->setStyleSheet("QPushButton {"
@@ -19,7 +18,7 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
                             "QPushButton::hover {"
                             "background: #b88c53; }");
     connect(settings, SIGNAL(clicked()), this, SLOT(SetUserSettings()));
-    permissionsButton = new QPushButton("permissions");
+    permissionsButton = new QPushButton("Permissions");
     permissionsButton->setStyleSheet("QPushButton {"
                             "background: #ffe7d0;"
                             "color: #ffba00;"
@@ -37,11 +36,13 @@ Account::Account(MainGUIWindow *p, Qt::Orientation orientation) : QSplitter(orie
                             "padding: 10px; }"
                             "QPushButton::hover {"
                             "background: #b88c53; }");
+    connect(logOut, SIGNAL(clicked()), this, SLOT(LogOut()));
+
     QSpacerItem *space = new QSpacerItem(40, 60, QSizePolicy::Preferred, QSizePolicy::Expanding);
 
     QVBoxLayout *sideBarLayout = new QVBoxLayout;
-    sideBarLayout->addWidget(settings);
 
+    sideBarLayout->addWidget(settings);
     sideBarLayout->addWidget(permissionsButton);
     sideBarLayout->addWidget(logOut);
     sideBarLayout->addItem(space);
@@ -102,10 +103,21 @@ void Account::LogIn()
     username = login->GetUserName();
     if (username != "")
     {
+        loader = new UserDataLoader;
         loader->ReadUserData(username);
-
         SetUserPermissions();
     }
+}
+
+void Account::LogOut()
+{
+    qDebug() << "Logging out...";
+    QVBoxLayout *page = (QVBoxLayout *)(content->layout());
+    ClearLayout(page);
+    username.clear();
+    delete loader;
+    Parent->LoadProposals();
+    qDebug() << "Logged out...";
 }
 
 void Account::WriteSettings(QMap<QString, QVariant> newSettings)
@@ -175,7 +187,7 @@ void Account::SetUserPermissions()
     }
     if (permissions == "manager")
     {
-        permissionsButton->setText("ManagerProfile");
+        permissionsButton->setText("Manager Profile");
         page->addWidget(new manager(username));
     }
     if (permissions == "admin")
