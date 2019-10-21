@@ -19,13 +19,16 @@ class manager : public QWidget
 {
     Q_OBJECT
     QListWidget *meetingsList;
+    QVector<QCheckBox *> weekDays;
     QString managerName;
 public:
     manager(QString);
+    void ReadMeetings();
     void ReadSchedule();
 public slots:
-    void WriteSchedule();
+    void WriteMeetings();
     void Visited();
+    void WriteSchedule();
 };
 
 #endif // MANAGER_H

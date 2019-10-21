@@ -32,9 +32,11 @@ manager::manager(QString name) : QWidget(nullptr)
     {
         day = new QCheckBox(daysWeek[i]);
         week->addWidget(day);
+        weekDays.push_back(day);
     }
 
     QPushButton *updateSchedule = new QPushButton("Update schedule");
+    connect(updateSchedule, SIGNAL(clicked()), this, SLOT(WriteSchedule()));
     QSpacerItem *scheduleSpace = new QSpacerItem(10, 10, QSizePolicy::Expanding, QSizePolicy::Preferred);
     QHBoxLayout *submitSchedule = new QHBoxLayout;
     submitSchedule->addItem(scheduleSpace);
@@ -72,17 +74,17 @@ manager::manager(QString name) : QWidget(nullptr)
     ReadSchedule();
 }
 
-void manager::ReadSchedule()
+void manager::ReadMeetings()
 {
-    QFile managersSchedule("managers.json");
-    managersSchedule.open(QIODevice::ReadOnly | QIODevice::Text);
-    if (!managersSchedule.isOpen())
+    QFile managersMeetings("meetings.json   ");
+    managersMeetings.open(QIODevice::ReadOnly | QIODevice::Text);
+    if (!managersMeetings.isOpen())
     {
         qDebug() << "file not found";
         return;
     }
-    QString data = managersSchedule.readAll();
-    managersSchedule.close();
+    QString data = managersMeetings.readAll();
+    managersMeetings.close();
     QJsonObject schedules = QJsonDocument::fromJson(data.toUtf8()).object();
     QJsonArray curManagerSchedule = schedules[managerName].toArray();
     for (QJsonArray::iterator it = curManagerSchedule.begin(); it != curManagerSchedule.end(); it++)
@@ -91,7 +93,12 @@ void manager::ReadSchedule()
     }
 }
 
-void manager::WriteSchedule()
+void manager::ReadSchedule()
+{
+
+}
+
+void manager::WriteMeetings()
 {
     QJsonArray restMeetings;
     for (int i = 0; i < meetingsList->count(); i++)
@@ -99,6 +106,46 @@ void manager::WriteSchedule()
         restMeetings.push_back(meetingsList->item(i)->text());
     }
     qDebug() << restMeetings;
+    QFile managersMeetings("meetings.json");
+    managersMeetings.open(QIODevice::ReadOnly | QIODevice::Text);
+    if (!managersMeetings.isOpen())
+    {
+        qDebug() << "file not found";
+        return;
+    }
+    QString data = managersMeetings.readAll();
+    managersMeetings.close();
+    QJsonObject schedules = QJsonDocument::fromJson(data.toUtf8()).object();
+
+    schedules[managerName] = QJsonValue(restMeetings);
+
+    QFile meetingsWrite("meetings.json");
+    meetingsWrite.open(QIODevice::WriteOnly | QIODevice::Text);
+    if (!meetingsWrite.isOpen())
+    {
+        qDebug() << "file not found";
+        return;
+    }
+    meetingsWrite.write(QJsonDocument(schedules).toJson());
+    meetingsWrite.close();
+}
+
+void manager::Visited()
+{
+    meetingsList->takeItem(meetingsList->currentRow());
+}
+
+void manager::WriteSchedule()
+{
+    QJsonArray newSchedule;
+    for (int i = 0; i < weekDays.size(); i++)
+    {
+        if (weekDays[i]->isChecked())
+        {
+            newSchedule.push_back(i + 1);
+        }
+    }
+
     QFile managersSchedule("managers.json");
     managersSchedule.open(QIODevice::ReadOnly | QIODevice::Text);
     if (!managersSchedule.isOpen())
@@ -110,20 +157,15 @@ void manager::WriteSchedule()
     managersSchedule.close();
     QJsonObject schedules = QJsonDocument::fromJson(data.toUtf8()).object();
 
-    schedules[managerName] = QJsonValue(restMeetings);
+    schedules[managerName] = QJsonValue(newSchedule);
 
-    QFile managersWrite("managers.json");
-    managersWrite.open(QIODevice::WriteOnly | QIODevice::Text);
-    if (!managersWrite.isOpen())
+    QFile schedulesWrite("managers.json");
+    schedulesWrite.open(QIODevice::WriteOnly | QIODevice::Text);
+    if (!schedulesWrite.isOpen())
     {
         qDebug() << "file not found";
         return;
     }
-    managersWrite.write(QJsonDocument(schedules).toJson());
-    managersWrite.close();
-}
-
-void manager::Visited()
-{
-    meetingsList->takeItem(meetingsList->currentRow());
+    schedulesWrite.write(QJsonDocument(schedules).toJson());
+    schedulesWrite.close();
 }
